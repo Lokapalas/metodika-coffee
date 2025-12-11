@@ -1,393 +1,178 @@
 import React, { useState, useEffect } from 'react';
 import "./ProductImage.css";
-import ProductModal from './ProductModal';
-import CartItem from './CartItem';
-import ProductImage from './ProductImage';
 import './ProductGrid.css';
-
-// Безопасный парсинг JSON
-const safeParseJSON = (str, defaultValue) => {
-  try {
-    return str ? JSON.parse(str) : defaultValue;
-  } catch {
-    return defaultValue;
-  }
-};
+import NavBar from './components/NavBar';
+import SideBar from './components/SideBar';
 
 const Menu = () => {
+  // Состояния
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const [categories, setCategories] = useState({});
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [selectedSubcategory, setSelectedSubcategory] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState('Все');
   const [searchQuery, setSearchQuery] = useState('');
-  const [cart, setCart] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [cartTotal, setCartTotal] = useState(0);
+  const [cartCount, setCartCount] = useState(3); // временно 3 товара в корзине
 
-  // Загрузка продуктов и категорий
+  // Мок-данные (временные)
+  const mockProducts = [
+    { id: 1, name: "Кофе с молоком", price: 250, category: "Кофе", description: "Ароматный кофе с молоком" },
+    { id: 2, name: "Капучино", price: 240, category: "Кофе", description: "Идеальный баланс кофе и молока" },
+    { id: 3, name: "Американо", price: 180, category: "Кофе", description: "Классический чёрный кофе" },
+    { id: 4, name: "Эспрессо", price: 150, category: "Кофе", description: "Крепкий и ароматный" },
+    { id: 5, name: "Чай зелёный", price: 120, category: "Чай", description: "Свежий зелёный чай" },
+    { id: 6, name: "Чай чёрный", price: 110, category: "Чай", description: "Классический чёрный чай" },
+    { id: 7, name: "Тирамису", price: 280, category: "Десерты", description: "Итальянский десерт" },
+    { id: 8, name: "Чизкейк", price: 260, category: "Десерты", description: "Нежный чизкейк" },
+    { id: 9, name: "Латте", price: 260, category: "Кофе", description: "Кофе с молоком и пенкой" },
+    { id: 10, name: "Раф кофе", price: 270, category: "Кофе", description: "Кофе со сливками" },
+    { id: 11, name: "Лимонад", price: 180, category: "Напитки", description: "Освежающий лимонад" },
+    { id: 12, name: "Морс", price: 160, category: "Напитки", description: "Ягодный морс" }
+  ];
+
+  // Инициализация
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [productsRes, categoriesRes] = await Promise.all([
-          fetch('/api/products'),
-          fetch('/api/categories')
-        ]);
-
-        const productsData = await productsRes.json();
-        const categoriesData = await categoriesRes.json();
-
-        setProducts(productsData);
-        setFilteredProducts(productsData);
-        setCategories(categoriesData);
-
-        // БЕЗОПАСНАЯ загрузка корзины из localStorage
-        const savedCart = safeParseJSON(localStorage.getItem('metodikaCart'), []);
-        setCart(Array.isArray(savedCart) ? savedCart : []);
-      } catch (error) {
-        console.error('Ошибка загрузки данных:', error);
-      }
-    };
-
-    fetchData();
+    // Пробуем загрузить с бэкенда
+    fetch('/api/products')
+      .then(res => {
+        if (res.ok) return res.json();
+        throw new Error('Бэкенд не отвечает');
+      })
+      .then(data => {
+        setProducts(data);
+        setFilteredProducts(data);
+      })
+      .catch(err => {
+        console.log('Используем мок-данные:', err.message);
+        setProducts(mockProducts);
+        setFilteredProducts(mockProducts);
+      });
   }, []);
 
-  // Сохранение корзины в localStorage
+  // Фильтрация по категории
   useEffect(() => {
-    // БЕЗОПАСНОЕ сохранение
-    try {
-      localStorage.setItem('metodikaCart', JSON.stringify(cart));
-    } catch (error) {
-      console.error('Ошибка сохранения корзины:', error);
-    }
-
-    // Расчет общей суммы
-    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    setCartTotal(total);
-  }, [cart]);
-
-  // Фильтрация продуктов
-  useEffect(() => {
-    let filtered = products;
-
-    if (selectedCategory && selectedSubcategory) {
-      filtered = filtered.filter(p =>
-        p.category === selectedCategory && p.subcategory === selectedSubcategory
-      );
-    } else if (selectedCategory) {
+    let filtered = [...products];
+    
+    // Фильтр по категории
+    if (selectedCategory !== 'Все') {
       filtered = filtered.filter(p => p.category === selectedCategory);
     }
-
+    
+    // Фильтр по поиску
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
-      filtered = filtered.filter(p =>
-        p.name.toLowerCase().includes(query) ||
-        p.description?.toLowerCase().includes(query)
+      filtered = filtered.filter(p => 
+        p.name.toLowerCase().includes(query) || 
+        (p.description && p.description.toLowerCase().includes(query))
       );
     }
-
+    
     setFilteredProducts(filtered);
-  }, [selectedCategory, selectedSubcategory, searchQuery, products]);
+  }, [selectedCategory, searchQuery, products]);
 
-  // Обработчики корзины
-  const handleAddToCart = (item) => {
-    setCart(prevCart => {
-      const existingIndex = prevCart.findIndex(cartItem =>
-        cartItem.product_id === item.product_id &&
-        cartItem.size === item.size &&
-        JSON.stringify(cartItem.addons) === JSON.stringify(item.addons)
-      );
-
-      if (existingIndex >= 0) {
-        const updatedCart = [...prevCart];
-        updatedCart[existingIndex].quantity += item.quantity;
-        return updatedCart;
-      } else {
-        return [...prevCart, item];
-      }
-    });
+  // Обработчики
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
   };
 
-  const handleRemoveFromCart = (itemToRemove) => {
-    setCart(prevCart => prevCart.filter(item =>
-      !(item.product_id === itemToRemove.product_id &&
-        item.size === itemToRemove.size &&
-        JSON.stringify(item.addons) === JSON.stringify(itemToRemove.addons))
-    ));
+  const handleSearch = (query) => {
+    setSearchQuery(query);
   };
 
-  const handleUpdateQuantity = (itemToUpdate, newQuantity) => {
-    setCart(prevCart =>
-      prevCart.map(item =>
-        (item.product_id === itemToUpdate.product_id &&
-         item.size === itemToUpdate.size &&
-         JSON.stringify(item.addons) === JSON.stringify(itemToUpdate.addons))
-          ? { ...item, quantity: newQuantity }
-          : item
-      )
-    );
+  const handleAddToCart = (product) => {
+    setCartCount(prev => prev + 1);
+    alert(`Добавлено в корзину: ${product.name}`);
+    // Позже добавим логику в CartContext
   };
 
-  // Обработчики модальных окон
-  const handleProductClick = async (productId) => {
-    try {
-      const response = await fetch(`/api/products/${productId}`);
-      const productData = await response.json();
-      setSelectedProduct(productData);
-      setIsModalOpen(true);
-    } catch (error) {
-      console.error('Ошибка загрузки деталей товара:', error);
-    }
-  };
-
-  // Очистка фильтров
-  const clearFilters = () => {
-    setSelectedCategory(null);
-    setSelectedSubcategory(null);
-    setSearchQuery('');
-  };
-
-  // Очистка корзины
-  const clearCart = () => {
-    if (window.confirm('Очистить корзину?')) {
-      setCart([]);
-    }
-  };
-
-  // Получаем все подкатегории для выбранной категории
-  const getSubcategoriesForCategory = (category) => {
-    return categories[category] || [];
-  };
-
-  // Все категории включая "Все товары"
-  const allCategories = ['Все товары', ...Object.keys(categories)];
+  const categories = ['Все', 'Кофе', 'Чай', 'Десерты', 'Напитки'];
 
   return (
     <div className="menu-container">
-      {/* Шапка с поиском и корзиной */}
-      <div className="menu-header">
-        <div className="search-container">
-          <input
-            type="text"
-            placeholder="Поиск товаров..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="search-input"
-          />
-          {searchQuery && (
-            <button
-              onClick={() => setSearchQuery('')}
-              className="clear-search-btn"
-            >
-              ✕
-            </button>
-          )}
-        </div>
-
-        <button
-          onClick={() => setIsCartOpen(!isCartOpen)}
-          className="cart-toggle-btn"
-        >
-          🛒 Корзина ({cart.reduce((sum, item) => sum + item.quantity, 0)})
-          {cartTotal > 0 && (
-            <span className="cart-total"> {cartTotal} ₽</span>
-          )}
-        </button>
-      </div>
-
-      {/* ГОРИЗОНТАЛЬНАЯ НАВИГАЦИЯ */}
-      <div className="horizontal-nav">
-        <div className="horizontal-nav-content">
-          {/* Основные категории */}
-          <div className="categories-row">
-            {allCategories.map(category => {
-              const isAll = category === 'Все товары';
-              const isActive = isAll ? !selectedCategory : selectedCategory === category;
-
-              return (
-                <button
-                  key={category}
-                  onClick={() => {
-                    if (isAll) {
-                      clearFilters();
-                    } else {
-                      setSelectedCategory(category);
-                      setSelectedSubcategory(null);
-                    }
-                  }}
-                  className={`category-tab ${isActive ? 'active' : ''}`}
-                >
-                  {isAll ? 'Все' : category}
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Подкатегории (если выбрана категория) */}
-          {selectedCategory && getSubcategoriesForCategory(selectedCategory).length > 0 && (
-            <div className="subcategories-row">
-              <button
-                onClick={() => setSelectedSubcategory(null)}
-                className={`subcategory-tab ${!selectedSubcategory ? 'active' : ''}`}
-              >
-                Все
-              </button>
-
-              {getSubcategoriesForCategory(selectedCategory).map(sub => (
-                <button
-                  key={sub}
-                  onClick={() => setSelectedSubcategory(sub)}
-                  className={`subcategory-tab ${selectedSubcategory === sub ? 'active' : ''}`}
-                >
-                  {sub}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Основное содержимое */}
-      <div className="menu-content">
-        {/* Фильтры (активные) */}
-        {(selectedCategory || searchQuery) && (
-          <div className="active-filters">
-            <span className="filter-label">Активные фильтры:</span>
-            {selectedCategory && selectedCategory !== 'Все товары' && (
-              <span className="filter-tag">
-                {selectedCategory}
-                {selectedSubcategory && ` • ${selectedSubcategory}`}
-                <button
-                  onClick={clearFilters}
-                  className="filter-remove"
-                >
-                  ✕
-                </button>
-              </span>
-            )}
-            {searchQuery && (
-              <span className="filter-tag">
-                Поиск: "{searchQuery}"
-                <button
-                  onClick={() => setSearchQuery('')}
-                  className="filter-remove"
-                >
-                  ✕
-                </button>
-              </span>
-            )}
-          </div>
-        )}
-
-        {/* Сетка товаров */}
-        <div className="products-grid">
-          {filteredProducts.length > 0 ? (
-            filteredProducts.map(product => (
-              <div key={product.id} className="product-card" onClick={() => handleProductClick(product.id)}>
-                <ProductImage
-                  src={product.image}
-                  alt={product.name}
-                  className="product-image"
-                />
-                <div className="product-info">
-                  <h4>{product.name}</h4>
-                  <p className="product-description">
-                    {product.description || 'Вкусный напиток от Методика Кофе'}
-                  </p>
-                  <div className="product-footer">
-                    <span className="product-price">{product.price} ₽</span>
-                    <button className="product-select-btn">Выбрать</button>
-                  </div>
-                </div>
-              </div>
-            ))
-          ) : (
-            <div className="no-products">
-              <p>Товары не найдены</p>
-              <button onClick={clearFilters}>Показать все товары</button>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Модальное окно товара */}
-      {selectedProduct && (
-        <ProductModal
-          product={selectedProduct}
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          onAddToCart={handleAddToCart}
+      <NavBar 
+        onSearch={handleSearch}
+        cartCount={cartCount}
+      />
+      
+      <div className="main-content">
+        <SideBar 
+          categories={categories}
+          selectedCategory={selectedCategory}
+          onCategorySelect={handleCategorySelect}
         />
-      )}
-
-      {/* Панель корзины */}
-      <div className={`cart-panel ${isCartOpen ? 'open' : ''}`}>
-        <div className="cart-panel-header">
-          <h3>Ваш заказ</h3>
-          <button
-            onClick={() => setIsCartOpen(false)}
-            className="close-cart-btn"
-          >
-            ✕
-          </button>
-        </div>
-
-        <div className="cart-items-list">
-          {cart.length > 0 ? (
-            <>
-              {cart.map((item, index) => (
-                <CartItem
-                  key={index}
-                  item={item}
-                  onRemove={handleRemoveFromCart}
-                  onUpdate={handleUpdateQuantity}
-                />
-              ))}
-
-              <div className="cart-summary">
-                <div className="summary-row">
-                  <span>Итого:</span>
-                  <span className="summary-total">{cartTotal} ₽</span>
-                </div>
-
-                <button
+        
+        <div className="products-section">
+          <div className="container">
+            <header className="products-header">
+              <h1>Наше меню</h1>
+              <div className="products-stats">
+                <span className="category-badge">
+                  {selectedCategory === 'Все' ? 'Все категории' : selectedCategory}
+                </span>
+                <span className="products-count">
+                  {filteredProducts.length} товаров
+                </span>
+                {searchQuery && (
+                  <span className="search-query">
+                    Поиск: "{searchQuery}"
+                  </span>
+                )}
+              </div>
+            </header>
+            
+            {filteredProducts.length === 0 ? (
+              <div className="no-products">
+                <p>😔 Товары не найдены</p>
+                <p>Попробуйте другую категорию или поисковый запрос</p>
+                <button 
+                  className="reset-filters"
                   onClick={() => {
-                    if (cart.length > 0) {
-                      window.location.href = '/checkout';
-                    }
+                    setSelectedCategory('Все');
+                    setSearchQuery('');
                   }}
-                  className="checkout-btn"
-                  disabled={cart.length === 0}
                 >
-                  Перейти к оформлению
-                </button>
-
-                <button
-                  onClick={clearCart}
-                  className="clear-cart-btn"
-                >
-                  Очистить корзину
+                  Сбросить фильтры
                 </button>
               </div>
-            </>
-          ) : (
-            <div className="empty-cart">
-              <p>Корзина пуста</p>
-              <p>Добавьте товары из меню</p>
-            </div>
-          )}
+            ) : (
+              <>
+                <div className="product-grid">
+                  {filteredProducts.map(product => (
+                    <div key={product.id} className="product-card">
+                      <div className="product-header">
+                        <span className="product-category-badge">
+                          {product.category}
+                        </span>
+                      </div>
+                      
+                      <div className="product-body">
+                        <h3 className="product-name">{product.name}</h3>
+                        <p className="product-description">
+                          {product.description}
+                        </p>
+                        
+                        <div className="product-footer">
+                          <div className="product-price">
+                            {product.price} ₽
+                          </div>
+                          <button 
+                            className="add-to-cart-btn"
+                            onClick={() => handleAddToCart(product)}
+                          >
+                            🛒 Добавить
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                
+                <div className="pagination-info">
+                  <p>Показано {filteredProducts.length} из {products.length} товаров</p>
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </div>
-
-      {/* Затемнение при открытой корзине */}
-      {isCartOpen && (
-        <div
-          className="cart-overlay"
-          onClick={() => setIsCartOpen(false)}
-        />
-      )}
     </div>
   );
 };
