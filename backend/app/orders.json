@@ -1,0 +1,390 @@
+[
+  {
+    "order_id": 1001,
+    "items": [
+      {
+        "id": 2,
+        "name": "Капучино",
+        "price": 320,
+        "quantity": 1
+      },
+      {
+        "id": 1,
+        "name": "Латте классический",
+        "price": 350,
+        "quantity": 1
+      }
+    ],
+    "phone": "+79778581104",
+    "pickup_location": "Metodika Coffee",
+    "comment": "",
+    "use_bonus": true,
+    "total": 670,
+    "status": "pending",
+    "created_at": "2025-12-02T22:26:06.118814",
+    "items_count": 2
+  },
+  {
+    "order_id": 1002,
+    "items": [
+      {
+        "id": 2,
+        "name": "Капучино",
+        "price": 320,
+        "quantity": 1
+      },
+      {
+        "id": 3,
+        "name": "Американо",
+        "price": 280,
+        "quantity": 1
+      }
+    ],
+    "phone": "+79778581104",
+    "pickup_location": "Методика кофе ЖК Люблинский парк",
+    "comment": "",
+    "use_bonus": false,
+    "total": 600,
+    "status": "pending",
+    "created_at": "2025-12-02T22:37:10.212856",
+    "items_count": 2,
+    "coffee_shop_phone": "+7 (919) 761-03-08"
+  },
+  {
+    "id": 1003,
+    "created_at": "2025-12-03T21:59:24.516021",
+    "status": "pending",
+    "items": [
+      {
+        "product_id": 3,
+        "name": "Американо",
+        "size": "M",
+        "volume": "300 мл",
+        "price": 220,
+        "quantity": 1,
+        "category": "Кофе",
+        "subcategory": "классика",
+        "addons": {
+          "sprinkles": [],
+          "toppings": [],
+          "syrups": [],
+          "sweetener": "none",
+          "sugar": 0,
+          "cinnamon": false,
+          "iceCream": 0
+        }
+      }
+    ],
+    "customer": {
+      "name": "Александр",
+      "phone": "79778581104"
+    },
+    "total": 220
+  },
+  {
+    "id": 1004,
+    "created_at": "2025-12-07T10:57:18.489165",
+    "status": "pending",
+    "items": [
+      {
+        "product_id": 3,
+        "name": "Американо",
+        "size": "M",
+        "volume": "300 мл",
+        "price": 220,
+        "quantity": 1,
+        "category": "Кофе",
+        "subcategory": "классика",
+        "addons": {
+          "sprinkles": [],
+          "toppings": [],
+          "syrups": [],
+          "sweetener": "none",
+          "sugar": 0,
+          "cinnamon": false,
+          "iceCream": 0
+        }
+      },
+      {
+        "product_id": 1,
+        "name": "Латте",
+        "size": "M",
+        "volume": "350 мл",
+        "price": 300,
+        "quantity": 1,
+        "category": "Кофе",
+        "subcategory": "классика",
+        "addons": {
+          "sprinkles": [],
+          "toppings": [],
+          "syrups": [],
+          "sweetener": "none",
+          "sugar": 0,
+          "cinnamon": false,
+          "iceCream": 0
+        }
+      }
+    ],
+    "customer": {
+      "name": "Александр Гришанов",
+      "phone": "79778581104"
+    },
+    "total": 520
+  },
+  {
+    "id": 1005,
+    "created_at": "2025-12-07T20:43:25.309830",
+    "status": "pending",
+    "items": [
+      {
+        "product_id": 1,
+        "name": "Латте",
+        "size": "M",
+        "volume": "350 мл",
+        "price": 300,
+        "quantity": 1,
+        "category": "Кофе",
+        "subcategory": "классика",
+        "addons": {
+          "sprinkles": [],
+          "toppings": [],
+          "syrups": [],
+          "cinnamon": false,
+          "sweetener": null,
+          "iceCream": 0,
+          "sugar": 0
+        }
+      }
+    ],
+    "customer": {
+      "name": "Александр",
+      "phone": "79778581104"
+    },
+    "total": 300
+  },
+  {
+    "id": 1006,
+    "created_at": "2025-12-09T16:48:47.447152",
+    "status": "pending",
+    "items": [
+      {
+        "product_id": 2,
+        "name": "Капучино",
+        "size": "M",
+        "volume": "350 мл",
+        "price": 280,
+        "quantity": 1,
+        "category": "Кофе",
+        "subcategory": "классика",
+        "addons": {
+          "sprinkles": [],
+          "toppings": [],
+          "syrups": [],
+          "sweetener": "none",
+          "sugar": 0,
+          "cinnamon": false,
+          "iceCream": 0
+        }
+      }
+    ],
+    "customer": {
+      "name": "Александр",
+      "phone": "79778581104"
+    },
+    "total": 280
+  },
+  {
+    "id": 1007,
+    "created_at": "2025-12-09T18:03:37.870554",
+    "status": "pending",
+    "items": [
+      {
+        "product_id": 1,
+        "name": "Латте",
+        "size": "M",
+        "volume": "350 мл",
+        "price": 300,
+        "quantity": 1,
+        "category": "Кофе",
+        "subcategory": "классика",
+        "addons": {
+          "sprinkles": [],
+          "toppings": [],
+          "syrups": [],
+          "sweetener": "none",
+          "sugar": 0,
+          "cinnamon": false,
+          "iceCream": 0
+        }
+      }
+    ],
+    "customer": {
+      "name": "Александр",
+      "phone": "79778581104"
+    },
+    "total": 300
+  },
+  {
+    "id": 1008,
+    "created_at": "2025-12-09T18:04:01.284230",
+    "status": "pending",
+    "items": [
+      {
+        "product_id": 1,
+        "name": "Латте (M)",
+        "size": "M",
+        "volume": null,
+        "price": 300,
+        "quantity": 2,
+        "category": "Кофе",
+        "subcategory": "классика",
+        "addons": {
+          "sprinkles": [
+            "Мокко"
+          ],
+          "syrups": [
+            "Ванильный"
+          ],
+          "sweetener": "sugar",
+          "cinnamon": true
+        }
+      }
+    ],
+    "customer": {
+      "name": "Тестовый Клиент",
+      "phone": "+79161234567"
+    },
+    "total": 600
+  },
+  {
+    "id": 1009,
+    "created_at": "2025-12-10T17:00:34.097686",
+    "status": "pending",
+    "items": [
+      {
+        "product_id": 1,
+        "name": "Латте",
+        "size": "S",
+        "volume": "250 мл",
+        "price": 250,
+        "quantity": 1,
+        "category": "Кофе",
+        "subcategory": "классика",
+        "addons": {
+          "sprinkles": [],
+          "toppings": [],
+          "syrups": [],
+          "sweetener": "none",
+          "sugar": 0,
+          "cinnamon": false,
+          "iceCream": 0
+        }
+      },
+      {
+        "product_id": 2,
+        "name": "Капучино",
+        "size": "L",
+        "volume": "450 мл",
+        "price": 320,
+        "quantity": 1,
+        "category": "Кофе",
+        "subcategory": "классика",
+        "addons": {
+          "sprinkles": [],
+          "toppings": [],
+          "syrups": [],
+          "sweetener": "none",
+          "sugar": 0,
+          "cinnamon": false,
+          "iceCream": 0
+        }
+      }
+    ],
+    "customer": {
+      "name": "Александр",
+      "phone": "+79778581104"
+    },
+    "total": 570
+  },
+  {
+    "id": 1010,
+    "created_at": "2025-12-10T17:54:40.344269",
+    "status": "pending",
+    "items": [
+      {
+        "product_id": 3,
+        "name": "Американо",
+        "size": "M",
+        "volume": "300 мл",
+        "price": 220,
+        "quantity": 1,
+        "category": "Кофе",
+        "subcategory": "классика",
+        "addons": {
+          "sprinkles": [],
+          "toppings": [],
+          "syrups": [],
+          "sweetener": "none",
+          "sugar": 0,
+          "cinnamon": false,
+          "iceCream": 0
+        }
+      }
+    ],
+    "customer": {
+      "name": "Гришанов Александр Сергеевич",
+      "phone": "+79778581104"
+    },
+    "total": 220
+  },
+  {
+    "id": 1011,
+    "created_at": "2025-12-10T17:55:10.743577",
+    "status": "pending",
+    "items": [
+      {
+        "product_id": 1,
+        "name": "Латте",
+        "size": "M",
+        "volume": "350 мл",
+        "price": 300,
+        "quantity": 2,
+        "category": "Кофе",
+        "subcategory": "классика",
+        "addons": {
+          "sprinkles": [],
+          "toppings": [],
+          "syrups": [],
+          "sweetener": "none",
+          "sugar": 0,
+          "cinnamon": false,
+          "iceCream": 0
+        }
+      },
+      {
+        "product_id": 2,
+        "name": "Капучино",
+        "size": "L",
+        "volume": "450 мл",
+        "price": 320,
+        "quantity": 1,
+        "category": "Кофе",
+        "subcategory": "классика",
+        "addons": {
+          "sprinkles": [],
+          "toppings": [],
+          "syrups": [],
+          "sweetener": "none",
+          "sugar": 0,
+          "cinnamon": false,
+          "iceCream": 0
+        }
+      }
+    ],
+    "customer": {
+      "name": "Гришанов Александр Сергеевич",
+      "phone": "+79778581104"
+    },
+    "total": 920
+  }
+]

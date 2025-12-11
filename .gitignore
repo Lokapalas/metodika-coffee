@@ -1,0 +1,21 @@
+# Конфигурационные файлы
+.env
+.env.local
+.env.production
+
+# Логи и системные файлы
+*.log
+logs/
+.DS_Store
+Thumbs.db
+
+# Зависимости
+node_modules/
+vendor/
+
+# Бинарные файлы и БД
+*.sql
+*.dump
+*.db
+__pycache__/
+*.pyc
