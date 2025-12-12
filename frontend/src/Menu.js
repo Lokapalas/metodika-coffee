@@ -1,180 +1,303 @@
 import React, { useState, useEffect } from 'react';
-import "./ProductImage.css";
-import './ProductGrid.css';
-import NavBar from './components/NavBar';
-import SideBar from './components/SideBar';
+import './App.css';
+import './Menu.css';
+import ProductModal from './components/ProductModal';
+import { useCart } from './context/CartContext';
 
-const Menu = () => {
-  // Состояния
+function Menu() {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Все');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [cartCount, setCartCount] = useState(3); // временно 3 товара в корзине
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  const { addToCart } = useCart();
 
-  // Мок-данные (временные)
-  const mockProducts = [
-    { id: 1, name: "Кофе с молоком", price: 250, category: "Кофе", description: "Ароматный кофе с молоком" },
-    { id: 2, name: "Капучино", price: 240, category: "Кофе", description: "Идеальный баланс кофе и молока" },
-    { id: 3, name: "Американо", price: 180, category: "Кофе", description: "Классический чёрный кофе" },
-    { id: 4, name: "Эспрессо", price: 150, category: "Кофе", description: "Крепкий и ароматный" },
-    { id: 5, name: "Чай зелёный", price: 120, category: "Чай", description: "Свежий зелёный чай" },
-    { id: 6, name: "Чай чёрный", price: 110, category: "Чай", description: "Классический чёрный чай" },
-    { id: 7, name: "Тирамису", price: 280, category: "Десерты", description: "Итальянский десерт" },
-    { id: 8, name: "Чизкейк", price: 260, category: "Десерты", description: "Нежный чизкейк" },
-    { id: 9, name: "Латте", price: 260, category: "Кофе", description: "Кофе с молоком и пенкой" },
-    { id: 10, name: "Раф кофе", price: 270, category: "Кофе", description: "Кофе со сливками" },
-    { id: 11, name: "Лимонад", price: 180, category: "Напитки", description: "Освежающий лимонад" },
-    { id: 12, name: "Морс", price: 160, category: "Напитки", description: "Ягодный морс" }
+  // Категории для навигации
+  const categories = [
+    'Все', 'Кофе', 'Чай', 'Выпечка', 'Десерты', 'Напитки',
+    'Осень', 'На молоке', 'На сливках', 'Айс напитки'
   ];
 
-  // Инициализация
+  // Загружаем данные товаров
   useEffect(() => {
-    // Пробуем загрузить с бэкенда
-    fetch('/api/products')
-      .then(res => {
-        if (res.ok) return res.json();
-        throw new Error('Бэкенд не отвечает');
-      })
-      .then(data => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch('/data/products.json');
+        
+        if (!response.ok) throw new Error(`Ошибка: ${response.status}`);
+        
+        const data = await response.json();
         setProducts(data);
         setFilteredProducts(data);
-      })
-      .catch(err => {
-        console.log('Используем мок-данные:', err.message);
+        setLoading(false);
+      } catch (err) {
+        console.error('Ошибка при загрузке товаров:', err);
+        setError('Не удалось загрузить товары');
+        setLoading(false);
+        
+        // Fallback данные
+        const mockProducts = [
+          { 
+            id: 1, 
+            name: "Эспрессо", 
+            price: 180, 
+            category: "Кофе", 
+            image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=300&h=200&fit=crop", 
+            description: "Классический крепкий кофе, приготовленный под высоким давлением",
+            popular: true 
+          },
+          { 
+            id: 2, 
+            name: "Капучино", 
+            price: 250, 
+            category: "Кофе", 
+            image: "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=300&h=200&fit=crop", 
+            description: "Кофе с молочной пенкой и нежной текстурой",
+            popular: true 
+          },
+          { 
+            id: 3, 
+            name: "Латте", 
+            price: 280, 
+            category: "Кофе", 
+            image: "https://images.unsplash.com/photo-1561047029-3000c68339ca?w=300&h=200&fit=crop", 
+            description: "Нежный кофе с большим количеством молока",
+            popular: false 
+          },
+          { 
+            id: 4, 
+            name: "Раф пряный", 
+            price: 350, 
+            category: "Кофе", 
+            image: "https://images.unsplash.com/photo-1485808191679-5f86510681a2?w=300&h=200&fit=crop", 
+            description: "Нежный кофе со сливками и ванильным сиропом",
+            popular: true 
+          },
+        ];
         setProducts(mockProducts);
         setFilteredProducts(mockProducts);
-      });
+      }
+    };
+
+    fetchProducts();
   }, []);
 
-  // Фильтрация по категории
+  // Фильтрация товаров
   useEffect(() => {
-    let filtered = [...products];
-    
-    // Фильтр по категории
+    let filtered = products;
+
     if (selectedCategory !== 'Все') {
-      filtered = filtered.filter(p => p.category === selectedCategory);
+      filtered = filtered.filter(product => product.category === selectedCategory);
     }
-    
-    // Фильтр по поиску
-    if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase();
-      filtered = filtered.filter(p => 
-        p.name.toLowerCase().includes(query) || 
-        (p.description && p.description.toLowerCase().includes(query))
+
+    if (searchTerm.trim() !== '') {
+      const term = searchTerm.toLowerCase();
+      filtered = filtered.filter(product =>
+        product.name.toLowerCase().includes(term) ||
+        (product.description && product.description.toLowerCase().includes(term))
       );
     }
-    
-    setFilteredProducts(filtered);
-  }, [selectedCategory, searchQuery, products]);
 
-  // Обработчики
+    setFilteredProducts(filtered);
+  }, [products, selectedCategory, searchTerm]);
+
+  // Обработчик поиска
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  // Обработчик выбора категории
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleSearch = (query) => {
-    setSearchQuery(query);
+  // Открытие модального окна для продукта
+  const handleProductClick = (product) => {
+    setSelectedProduct(product);
+    setIsModalOpen(true);
+    // Блокируем прокрутку фона
+    document.body.style.overflow = 'hidden';
   };
 
-  const handleAddToCart = (product) => {
-    setCartCount(prev => prev + 1);
-    alert(`Добавлено в корзину: ${product.name}`);
-    // Позже добавим логику в CartContext
+  // Закрытие модального окна
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedProduct(null);
+    // Восстанавливаем прокрутку
+    document.body.style.overflow = 'auto';
   };
 
-  const categories = ['Все', 'Кофе', 'Чай', 'Десерты', 'Напитки'];
+  // Быстрое добавление в корзину (без кастомизации)
+  const handleQuickAdd = (product, e) => {
+    e.stopPropagation();
+    addToCart({
+      ...product,
+      customizations: { size: 'M', extras: [], milkType: 'обычное' }
+    });
+    
+    // Визуальная обратная связь
+    const button = e.target;
+    const originalText = button.innerHTML;
+    button.innerHTML = '<span class="cart-icon-btn">✓</span> Добавлено!';
+    button.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+    
+    setTimeout(() => {
+      button.innerHTML = originalText;
+      button.style.background = '';
+    }, 1500);
+  };
+
+  // Показать загрузку
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="loader"></div>
+        <p>Загружаем меню...</p>
+      </div>
+    );
+  }
+
+  // Показать ошибку
+  if (error) {
+    return (
+      <div className="error-container">
+        <p style={{ color: 'red' }}>{error}</p>
+        <button onClick={() => window.location.reload()}>
+          Обновить страницу
+        </button>
+      </div>
+    );
+  }
 
   return (
-    <div className="menu-container">
-      <NavBar 
-        onSearch={handleSearch}
-        cartCount={cartCount}
-      />
-      
-      <div className="main-content">
-        <SideBar 
-          categories={categories}
-          selectedCategory={selectedCategory}
-          onCategorySelect={handleCategorySelect}
-        />
-        
-        <div className="products-section">
-          <div className="container">
-            <header className="products-header">
-              <h1>Наше меню</h1>
-              <div className="products-stats">
-                <span className="category-badge">
-                  {selectedCategory === 'Все' ? 'Все категории' : selectedCategory}
-                </span>
-                <span className="products-count">
-                  {filteredProducts.length} товаров
-                </span>
-                {searchQuery && (
-                  <span className="search-query">
-                    Поиск: "{searchQuery}"
-                  </span>
-                )}
-              </div>
-            </header>
-            
-            {filteredProducts.length === 0 ? (
-              <div className="no-products">
-                <p>😔 Товары не найдены</p>
-                <p>Попробуйте другую категорию или поисковый запрос</p>
-                <button 
-                  className="reset-filters"
-                  onClick={() => {
-                    setSelectedCategory('Все');
-                    setSearchQuery('');
-                  }}
-                >
-                  Сбросить фильтры
-                </button>
-              </div>
-            ) : (
-              <>
-                <div className="product-grid">
-                  {filteredProducts.map(product => (
-                    <div key={product.id} className="product-card">
-                      <div className="product-header">
-                        <span className="product-category-badge">
-                          {product.category}
-                        </span>
-                      </div>
-                      
-                      <div className="product-body">
-                        <h3 className="product-name">{product.name}</h3>
-                        <p className="product-description">
-                          {product.description}
-                        </p>
-                        
-                        <div className="product-footer">
-                          <div className="product-price">
-                            {product.price} ₽
-                          </div>
-                          <button 
-                            className="add-to-cart-btn"
-                            onClick={() => handleAddToCart(product)}
-                          >
-                            🛒 Добавить
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                
-                <div className="pagination-info">
-                  <p>Показано {filteredProducts.length} из {products.length} товаров</p>
-                </div>
-              </>
-            )}
+    <>
+      <div className="menu-page">
+        {/* Верхняя навигация категорий */}
+        <div className="category-nav">
+          <div className="category-nav-container">
+            {categories.map((category) => (
+              <button
+                key={category}
+                className={`category-nav-btn ${selectedCategory === category ? 'active' : ''}`}
+                onClick={() => handleCategorySelect(category)}
+              >
+                {category}
+              </button>
+            ))}
           </div>
         </div>
+
+        {/* Основной контент */}
+        <div className="menu-main-container">
+          {/* Заголовок и поиск */}
+          <div className="menu-header">
+            <h1>Наше меню</h1>
+            <div className="search-box">
+              <span className="search-icon">🔍</span>
+              <input
+                type="text"
+                placeholder="Искать в Metodika Coffee..."
+                value={searchTerm}
+                onChange={handleSearch}
+              />
+            </div>
+          </div>
+
+          {/* Информация о фильтрах */}
+          <div className="filter-info">
+            <p>
+              {filteredProducts.length} товаров • 
+              {selectedCategory === 'Все' ? ' Все категории' : ` ${selectedCategory}`}
+              {searchTerm && ` • Поиск: "${searchTerm}"`}
+            </p>
+          </div>
+
+          {/* Сетка товаров */}
+          {filteredProducts.length === 0 ? (
+            <div className="no-products">
+              <h3>Товары не найдены</h3>
+              <p>Попробуйте изменить критерии поиска</p>
+              <button 
+                onClick={() => {
+                  setSelectedCategory('Все');
+                  setSearchTerm('');
+                }}
+                className="clear-filters-btn"
+              >
+                Сбросить фильтры
+              </button>
+            </div>
+          ) : (
+            <div className="products-grid-new">
+              {filteredProducts.map(product => (
+                <div 
+                  key={product.id} 
+                  className="product-card-new"
+                  onClick={() => handleProductClick(product)}
+                >
+                  <div className="product-image-new">
+                    <img 
+                      src={product.image} 
+                      alt={product.name}
+                      loading="lazy"
+                    />
+                    {product.popular && (
+                      <span className="badge-popular">Популярный</span>
+                    )}
+                  </div>
+                  
+                  <div className="product-info-new">
+                    <div className="product-header-new">
+                      <h3 className="product-name-new">{product.name}</h3>
+                      <p className="product-price-new">{product.price} ₽</p>
+                    </div>
+                    
+                    <p className="product-description-new">
+                      {product.description || 'Вкусный напиток'}
+                    </p>
+                    
+                    <div className="product-category-new">
+                      <span className="category-tag-new">{product.category}</span>
+                    </div>
+                    
+                    <div className="product-buttons">
+                      <button
+                        onClick={(e) => handleQuickAdd(product, e)}
+                        className="add-to-cart-btn-new quick-add-btn"
+                      >
+                        <span className="cart-icon-btn">🛒</span>
+                        Быстро добавить (M)
+                      </button>
+                      <button
+                        onClick={() => handleProductClick(product)}
+                        className="customize-btn"
+                      >
+                        Настроить как любишь →
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+
+      {/* Модальное окно для кастомизации */}
+      {selectedProduct && (
+        <ProductModal
+          product={selectedProduct}
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+        />
+      )}
+    </>
   );
-};
+}
 
 export default Menu;

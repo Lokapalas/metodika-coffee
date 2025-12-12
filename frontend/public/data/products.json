@@ -1,0 +1,122 @@
+[
+  {
+    "id": 1,
+    "name": "Эспрессо",
+    "description": "Классический крепкий кофе, приготовленный под высоким давлением",
+    "price": 180,
+    "category": "Кофе",
+    "image": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=300&h=300&fit=crop",
+    "inStock": true,
+    "popular": true
+  },
+  {
+    "id": 2,
+    "name": "Капучино",
+    "description": "Кофе с молочной пенкой и нежной текстурой",
+    "price": 250,
+    "category": "Кофе",
+    "image": "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=300&h=300&fit=crop",
+    "inStock": true,
+    "popular": true
+  },
+  {
+    "id": 3,
+    "name": "Латте",
+    "description": "Нежный кофе с большим количеством молока",
+    "price": 280,
+    "category": "Кофе",
+    "image": "https://images.unsplash.com/photo-1561047029-3000c68339ca?w-300&h=300&fit=crop",
+    "inStock": true,
+    "popular": true
+  },
+  {
+    "id": 4,
+    "name": "Американо",
+    "description": "Эспрессо с добавлением горячей воды",
+    "price": 200,
+    "category": "Кофе",
+    "image": "https://images.unsplash.com/photo-1551030173-122aabc4489e?w=300&h=300&fit=crop",
+    "inStock": true,
+    "popular": false
+  },
+  {
+    "id": 5,
+    "name": "Раф кофе",
+    "description": "Нежный кофе со сливками и ванильным сиропом",
+    "price": 320,
+    "category": "Кофе",
+    "image": "https://images.unsplash.com/photo-1485808191679-5f86510681a2?w=300&h=300&fit=crop",
+    "inStock": true,
+    "popular": true
+  },
+  {
+    "id": 6,
+    "name": "Матча латте",
+    "description": "Традиционный японский чай с молоком",
+    "price": 300,
+    "category": "Чай",
+    "image": "https://images.unsplash.com/photo-1558898434-af897d400a19?w=300&h=300&fit=crop",
+    "inStock": true,
+    "popular": true
+  },
+  {
+    "id": 7,
+    "name": "Черный чай",
+    "description": "Классический черный чай с бергамотом",
+    "price": 150,
+    "category": "Чай",
+    "image": "https://images.unsplash.com/photo-1561047029-3000c68339ca?w=300&h=300&fit=crop",
+    "inStock": true,
+    "popular": false
+  },
+  {
+    "id": 8,
+    "name": "Круассан",
+    "description": "Свежая французская выпечка",
+    "price": 120,
+    "category": "Выпечка",
+    "image": "https://images.unsplash.com/photo-1555507036-ab794f27d2e9?w=300&h=300&fit=crop",
+    "inStock": true,
+    "popular": true
+  },
+  {
+    "id": 9,
+    "name": "Тирамису",
+    "description": "Итальянский десерт с кофе и маскарпоне",
+    "price": 350,
+    "category": "Десерты",
+    "image": "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=300&h=300&fit=crop",
+    "inStock": true,
+    "popular": true
+  },
+  {
+    "id": 10,
+    "name": "Чизкейк",
+    "description": "Нежный сырный десерт на песочной основе",
+    "price": 320,
+    "category": "Десерты",
+    "image": "https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=300&h=300&fit=crop",
+    "inStock": true,
+    "popular": true
+  },
+  {
+    "id": 11,
+    "name": "Молочный коктейль",
+    "description": "Охлаждающий напиток на основе молока и мороженого",
+    "price": 280,
+    "category": "Напитки",
+    "image": "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=300&h=300&fit=crop",
+    "inStock": true,
+    "popular": false
+  },
+  {
+    "id": 12,
+    "name": "Фреш апельсиновый",
+    "description": "Свежевыжатый апельсиновый сок",
+    "price": 200,
+    "category": "Напитки",
+    "image": "https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=300&h=300&fit=crop",
+    "inStock": true,
+    "popular": true
+  }
+]

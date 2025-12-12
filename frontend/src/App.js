@@ -1,23 +1,20 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { CartProvider } from './CartContext';
-import Menu from './Menu';
-import Checkout from './Checkout';
-import AdminPanel from './AdminPanel';
 import './App.css';
+import './responsive.css'; // Добавляем импорт
+import NavBar from './components/NavBar';
+import SideBar from './components/SideBar';
+import Menu from './Menu';
+import Cart from './components/Cart';
+import { CartProvider } from './context/CartContext';
 
 function App() {
   return (
     <CartProvider>
-      <Router>
-        <div className="App">
-          <Routes>
-            <Route path="/" element={<Menu />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/admin" element={<AdminPanel />} />
-          </Routes>
-        </div>
-      </Router>
+      <div className="App">
+        <NavBar />
+        <Menu />
+        <Cart />
+      </div>
     </CartProvider>
   );
 }
