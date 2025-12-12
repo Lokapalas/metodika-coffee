@@ -6,23 +6,27 @@ function ProductModal({ product, isOpen, onClose }) {
   const { addToCart } = useCart();
   
   // Состояния для кастомизации
-  const [selectedSize, setSelectedSize] = useState('M');
+  const availableSizes = product.sizes || ['M'];
+  const [selectedSize, setSelectedSize] = useState(availableSizes.includes('M') ? 'M' : availableSizes[0]);
   const [extras, setExtras] = useState({
     сироп: false,
     шоколад: false,
     корица: false,
     карамель: false,
-    мята: false
+    мята: false,
+    'сгущёнка': false,
+    'пюре манго': false,
+    груша: false,
+    халва: false,
+    семена: false,
+    'клюква сушёная': false,
+    ягоды: false
   });
   const [milkType, setMilkType] = useState('обычное');
   const [quantity, setQuantity] = useState(1);
   
-  // Цены за размеры
-  const sizePrices = {
-    'S': product.price - 30,
-    'M': product.price,
-    'L': product.price + 40
-  };
+  // Цены за размеры (берем из product.prices или используем product.price)
+  const sizePrices = product.prices || { [availableSizes[0]]: product.price || 0 };
   
   // Цены за дополнения
   const extraPrices = {
@@ -30,19 +34,42 @@ function ProductModal({ product, isOpen, onClose }) {
     'шоколад': 40,
     'корица': 20,
     'карамель': 35,
-    'мята': 25
+    'мята': 25,
+    'сгущёнка': 40,
+    'пюре манго': 60,
+    'груша': 60,
+    'халва': 30,
+    'семена': 40,
+    'клюква сушёная': 50,
+    'ягоды': 80
+  };
+  
+  // Дополнительная плата за растительное молоко (для завтраков)
+  const milkTypePrices = {
+    'обычное': 0,
+    'безлактозное': 50,
+    'миндальное': 50,
+    'банановое': 50,
+    'кокосовое': 50,
+    'фисташковое': 50,
+    'фундучное': 50
   };
   
   // Расчет итоговой цены
   const calculateTotalPrice = () => {
-    let total = sizePrices[selectedSize];
+    let total = sizePrices[selectedSize] || 0;
     
     // Добавляем стоимость дополнений
     Object.keys(extras).forEach(extra => {
-      if (extras[extra]) {
+      if (extras[extra] && extraPrices[extra]) {
         total += extraPrices[extra];
       }
     });
+    
+    // Добавляем стоимость растительного молока
+    if (milkTypePrices[milkType]) {
+      total += milkTypePrices[milkType];
+    }
     
     // Умножаем на количество
     return total * quantity;
@@ -58,19 +85,25 @@ function ProductModal({ product, isOpen, onClose }) {
   
   // Обработчик добавления в корзину
   const handleAddToCart = () => {
+    // Собираем выбранные дополнения
+    const selectedExtras = Object.keys(extras).filter(extra => extras[extra]);
+    
     const customProduct = {
-      id: product.id + '-' + Date.now(), // Уникальный ID для кастомизированного товара
+      id: `${product.id}-${selectedSize}-${Date.now()}`,
       baseProduct: product,
       customizations: {
         size: selectedSize,
-        extras: Object.keys(extras).filter(extra => extras[extra]),
+        extras: selectedExtras,
         milkType: milkType,
         quantity: quantity
       },
       name: `${product.name} (${selectedSize})`,
-      price: calculateTotalPrice(),
-      totalPrice: calculateTotalPrice() * quantity,
-      image: product.image
+      price: sizePrices[selectedSize] || 0,
+      extraPrice: selectedExtras.reduce((sum, extra) => sum + (extraPrices[extra] || 0), 0),
+      milkPrice: milkTypePrices[milkType] || 0,
+      totalPrice: calculateTotalPrice(),
+      image: product.image,
+      quantity: quantity
     };
     
     addToCart(customProduct);
@@ -81,6 +114,10 @@ function ProductModal({ product, isOpen, onClose }) {
   };
   
   if (!isOpen || !product) return null;
+  
+  // Определяем, нужно ли показывать выбор молока (для завтраков)
+  const showMilkSelection = product.category === 'Еда' && 
+    (product.subcategory === 'Завтраки' || product.name.includes('каша'));
   
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -94,74 +131,116 @@ function ProductModal({ product, isOpen, onClose }) {
         {/* Изображение продукта */}
         <div className="modal-image">
           <img src={product.image} alt={product.name} />
+          <div className="modal-category-badge">
+            <span className="category-badge">{product.category}</span>
+            {product.subcategory && product.subcategory !== 'Все' && (
+              <span className="subcategory-badge">{product.subcategory}</span>
+            )}
+          </div>
         </div>
         
         {/* Основной контент */}
         <div className="modal-content">
-          {/* Выбор размера */}
-          <div className="size-section">
-            <h3>Размер</h3>
-            <div className="size-options">
-              {['S', 'M', 'L'].map(size => (
-                <button
-                  key={size}
-                  className={`size-option ${selectedSize === size ? 'selected' : ''}`}
-                  onClick={() => setSelectedSize(size)}
-                >
-                  <span className="size-label">{size}</span>
-                  <span className="size-price">
-                    {size === 'S' ? product.price - 30 : 
-                     size === 'M' ? product.price : 
-                     product.price + 40} ₽
-                  </span>
-                  <span className="size-volume">
-                    {size === 'S' ? '300 мл' : 
-                     size === 'M' ? '450 мл' : 
-                     '600 мл'}
-                  </span>
-                </button>
-              ))}
-            </div>
+          {/* Описание продукта */}
+          <div className="modal-description">
+            <p>{product.description}</p>
           </div>
           
-          {/* Выбор типа молока */}
-          <div className="milk-section">
-            <h3>Молоко</h3>
-            <div className="milk-options">
-              {['обычное', 'овсяное', 'миндальное', 'кокосовое', 'соевое'].map(milk => (
-                <button
-                  key={milk}
-                  className={`milk-option ${milkType === milk ? 'selected' : ''}`}
-                  onClick={() => setMilkType(milk)}
-                >
-                  {milk.charAt(0).toUpperCase() + milk.slice(1)}
-                </button>
-              ))}
+          {/* Выбор размера (если есть несколько размеров) */}
+          {availableSizes.length > 1 && (
+            <div className="size-section">
+              <h3>Размер</h3>
+              <div className="size-options">
+                {availableSizes.map(size => (
+                  <button
+                    key={size}
+                    className={`size-option ${selectedSize === size ? 'selected' : ''}`}
+                    onClick={() => setSelectedSize(size)}
+                  >
+                    <span className="size-label">{size}</span>
+                    <span className="size-price">
+                      {sizePrices[size] || 0} ₽
+                    </span>
+                    <span className="size-volume">
+                      {size === 'S' ? '300 мл' : 
+                       size === 'M' ? '450 мл' : 
+                       '600 мл'}
+                    </span>
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
+          
+          {/* Выбор типа молока (для завтраков) */}
+          {showMilkSelection && (
+            <div className="milk-section">
+              <h3>Молоко</h3>
+              <div className="milk-options">
+                {Object.keys(milkTypePrices).map(milk => (
+                  <button
+                    key={milk}
+                    className={`milk-option ${milkType === milk ? 'selected' : ''}`}
+                    onClick={() => setMilkType(milk)}
+                  >
+                    {milk.charAt(0).toUpperCase() + milk.slice(1)}
+                    {milkTypePrices[milk] > 0 && (
+                      <span className="milk-price">+{milkTypePrices[milk]} ₽</span>
+                    )}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
           
           {/* Дополнения */}
-          <div className="extras-section">
-            <h3>Дополнения</h3>
-            <div className="extras-grid">
-              {Object.keys(extras).map(extra => (
-                <div key={extra} className="extra-item">
-                  <label className="extra-checkbox">
-                    <input
-                      type="checkbox"
-                      checked={extras[extra]}
-                      onChange={() => handleExtraChange(extra)}
-                    />
-                    <span className="checkmark"></span>
-                    <span className="extra-name">
-                      {extra.charAt(0).toUpperCase() + extra.slice(1)}
-                    </span>
-                  </label>
-                  <span className="extra-price">+{extraPrices[extra]} ₽</span>
-                </div>
-              ))}
+          {(product.category === 'Еда' && product.subcategory === 'Завтраки') || 
+           product.name.includes('Сырники') || 
+           product.name.includes('каша') ? (
+            <div className="extras-section">
+              <h3>Дополнения</h3>
+              <div className="extras-grid">
+                {['сгущёнка', 'пюре манго', 'груша', 'халва', 'семена', 'клюква сушёная', 'ягоды'].map(extra => (
+                  <div key={extra} className="extra-item">
+                    <label className="extra-checkbox">
+                      <input
+                        type="checkbox"
+                        checked={extras[extra] || false}
+                        onChange={() => handleExtraChange(extra)}
+                      />
+                      <span className="checkmark"></span>
+                      <span className="extra-name">
+                        {extra.charAt(0).toUpperCase() + extra.slice(extra)}
+                      </span>
+                    </label>
+                    <span className="extra-price">+{extraPrices[extra]} ₽</span>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="extras-section">
+              <h3>Дополнения</h3>
+              <div className="extras-grid">
+                {['сироп', 'шоколад', 'корица', 'карамель', 'мята'].map(extra => (
+                  <div key={extra} className="extra-item">
+                    <label className="extra-checkbox">
+                      <input
+                        type="checkbox"
+                        checked={extras[extra] || false}
+                        onChange={() => handleExtraChange(extra)}
+                      />
+                      <span className="checkmark"></span>
+                      <span className="extra-name">
+                        {extra.charAt(0).toUpperCase() + extra.slice(extra)}
+                      </span>
+                    </label>
+                    <span className="extra-price">+{extraPrices[extra]} ₽</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
           
           {/* Выбор количества */}
           <div className="quantity-section">
@@ -187,12 +266,19 @@ function ProductModal({ product, isOpen, onClose }) {
           {/* Итоговая цена */}
           <div className="price-summary">
             <div className="price-row">
-              <span>Размер ({selectedSize})</span>
-              <span>{sizePrices[selectedSize]} ₽</span>
+              <span>Основной товар ({selectedSize})</span>
+              <span>{sizePrices[selectedSize] || 0} ₽</span>
             </div>
             
+            {showMilkSelection && milkTypePrices[milkType] > 0 && (
+              <div className="price-row extra-price-row">
+                <span>Молоко ({milkType})</span>
+                <span>+{milkTypePrices[milkType]} ₽</span>
+              </div>
+            )}
+            
             {Object.keys(extras)
-              .filter(extra => extras[extra])
+              .filter(extra => extras[extra] && extraPrices[extra])
               .map(extra => (
                 <div key={extra} className="price-row extra-price-row">
                   <span>{extra.charAt(0).toUpperCase() + extra.slice(extra)}</span>
