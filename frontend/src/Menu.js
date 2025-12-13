@@ -14,6 +14,7 @@ function Menu() {
   const [error, setError] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showSubcategories, setShowSubcategories] = useState(false);
   
   const { addToCart } = useCart();
 
@@ -24,49 +25,69 @@ function Menu() {
 
   // Подкатегории для каждой категории
   const subcategories = {
-    'Все': ['Все'],
-    'Кофе': ['Все', 'Классика', 'Спешел', 'Не слипнется', 'Оригинальный', 'Холодный'],
-    'Не кофе': ['Все', 'Какао', 'Молочный', 'Матча', 'Полезно'],
-    'Еда': ['Все', 'Завтраки', 'Пицца', 'Первые блюда', 'Вторые блюда']
+    'Все': [],
+    'Кофе': ['Классика', 'Спешел', 'Не слипнется', 'Оригинальный', 'Холодный'],
+    'Не кофе': ['Какао', 'Молочный', 'Матча', 'Полезно'],
+    'Еда': ['Завтраки', 'Пицца', 'Первые блюда', 'Вторые блюда']
   };
 
   // Получить текущие подкатегории
   const getCurrentSubcategories = () => {
-    return subcategories[selectedCategory] || ['Все'];
+    return subcategories[selectedCategory] || [];
   };
 
-  // Загружаем данные товаров
+  // Загружаем данные товаров - ТЕПЕРЬ ПОЛНОЕ МЕНЮ
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('/data/products-full.json');
+        // Используем полное меню
+        const response = await fetch('/data/products-full-complete.json');
         
-        if (!response.ok) throw new Error(`Ошибка: ${response.status}`);
+        if (!response.ok) throw new Error(`Ошибка загрузки: ${response.status}`);
         
         const data = await response.json();
         setProducts(data);
         setFilteredProducts(data);
         setLoading(false);
+        
+        console.log(`✅ Загружено ${data.length} товаров из полного меню`);
       } catch (err) {
         console.error('Ошибка при загрузке товаров:', err);
-        setError('Не удалось загрузить товары');
-        setLoading(false);
+        setError('Не удалось загрузить товары. Пробуем загрузить базовое меню...');
         
-        // Fallback на базовые данные
-        const mockProducts = [
-          { 
-            id: 1, 
-            name: "Эспрессо", 
-            price: 180, 
-            category: "Кофе", 
-            subcategory: "Классика",
-            image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=300&h=200&fit=crop", 
-            description: "Классический крепкий кофе",
-            popular: true 
-          },
-        ];
-        setProducts(mockProducts);
-        setFilteredProducts(mockProducts);
+        // Пробуем загрузить резервный файл
+        try {
+          const backupResponse = await fetch('/data/products-full.json');
+          if (backupResponse.ok) {
+            const backupData = await backupResponse.json();
+            setProducts(backupData);
+            setFilteredProducts(backupData);
+            setLoading(false);
+            setError(null);
+            console.log(`✅ Загружено ${backupData.length} товаров из резервного файла`);
+          } else {
+            throw new Error('Резервный файл также недоступен');
+          }
+        } catch (backupErr) {
+          console.error('Ошибка при загрузке резервного файла:', backupErr);
+          setLoading(false);
+          
+          // Fallback на минимальные данные
+          const mockProducts = [
+            { 
+              id: 1, 
+              name: "Эспрессо", 
+              price: 180, 
+              category: "Кофе", 
+              subcategory: "Классика",
+              image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=300&h=200&fit=crop", 
+              description: "Классический крепкий кофе",
+              popular: true 
+            },
+          ];
+          setProducts(mockProducts);
+          setFilteredProducts(mockProducts);
+        }
       }
     };
 
@@ -83,7 +104,7 @@ function Menu() {
     }
 
     // Фильтр по подкатегории
-    if (selectedSubcategory !== 'Все') {
+    if (selectedSubcategory !== 'Все' && selectedSubcategory !== '') {
       filtered = filtered.filter(product => product.subcategory === selectedSubcategory);
     }
 
@@ -108,13 +129,14 @@ function Menu() {
   // Обработчик выбора категории
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);
-    setSelectedSubcategory('Все'); // Сбрасываем подкатегорию при смене категории
+    setSelectedSubcategory('Все');
+    setShowSubcategories(category !== 'Все' && subcategories[category]?.length > 0);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   // Обработчик выбора подкатегории
   const handleSubcategorySelect = (subcategory) => {
-    setSelectedSubcategory(subcategory);
+    setSelectedSubcategory(subcategory === selectedSubcategory ? 'Все' : subcategory);
     window.scrollTo({ top: 140, behavior: 'smooth' });
   };
 
@@ -132,13 +154,13 @@ function Menu() {
     document.body.style.overflow = 'auto';
   };
 
-  // Быстрое добавление в корзину (средний размер по умолчанию)
+  // Быстрое добавление в корзину
   const handleQuickAdd = (product, e) => {
     e.stopPropagation();
     
-    // Определяем размер по умолчанию (M или первый доступный)
-    const defaultSize = product.sizes.includes('M') ? 'M' : product.sizes[0];
-    const price = product.prices[defaultSize] || Object.values(product.prices)[0];
+    // Определяем размер по умолчанию
+    const defaultSize = product.sizes?.includes('M') ? 'M' : product.sizes?.[0] || 'M';
+    const price = product.prices?.[defaultSize] || product.price || 0;
     
     addToCart({
       ...product,
@@ -154,7 +176,7 @@ function Menu() {
     // Визуальная обратная связь
     const button = e.target;
     const originalText = button.innerHTML;
-    button.innerHTML = `<span class="cart-icon-btn">✓</span> Добавлено (${defaultSize})!`;
+    button.innerHTML = `<span class="cart-icon-btn">✓</span> Добавлено!`;
     button.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
     
     setTimeout(() => {
@@ -180,7 +202,8 @@ function Menu() {
     return (
       <div className="loading-container">
         <div className="loader"></div>
-        <p>Загружаем меню...</p>
+        <p>Загружаем полное меню...</p>
+        <p style={{ fontSize: '14px', color: '#666' }}>Пожалуйста, подождите</p>
       </div>
     );
   }
@@ -215,19 +238,27 @@ function Menu() {
           </div>
         </div>
 
-        {/* Навигация подкатегорий */}
-        {selectedCategory !== 'Все' && (
-          <div className="subcategory-nav">
-            <div className="subcategory-nav-container">
-              {getCurrentSubcategories().map((subcategory) => (
+        {/* Компактная навигация подкатегорий */}
+        {showSubcategories && getCurrentSubcategories().length > 0 && (
+          <div className="subcategory-nav-compact">
+            <div className="subcategory-nav-compact-container">
+              <div className="subcategory-scroll-wrapper">
                 <button
-                  key={subcategory}
-                  className={`subcategory-nav-btn ${selectedSubcategory === subcategory ? 'active' : ''}`}
-                  onClick={() => handleSubcategorySelect(subcategory)}
+                  className={`subcategory-compact-btn ${selectedSubcategory === 'Все' ? 'active' : ''}`}
+                  onClick={() => handleSubcategorySelect('Все')}
                 >
-                  {subcategory}
+                  Все {selectedCategory.toLowerCase()}
                 </button>
-              ))}
+                {getCurrentSubcategories().map((subcategory) => (
+                  <button
+                    key={subcategory}
+                    className={`subcategory-compact-btn ${selectedSubcategory === subcategory ? 'active' : ''}`}
+                    onClick={() => handleSubcategorySelect(subcategory)}
+                  >
+                    {subcategory}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         )}
@@ -235,9 +266,9 @@ function Menu() {
         {/* Основной контент */}
         <div className="menu-main-container">
           {/* Заголовок и поиск */}
-          <div className="menu-header">
+          <div className="menu-header-compact">
             <h1>Наше меню</h1>
-            <div className="search-box">
+            <div className="search-box-compact">
               <span className="search-icon">🔍</span>
               <input
                 type="text"
@@ -249,12 +280,18 @@ function Menu() {
           </div>
 
           {/* Информация о фильтрах */}
-          <div className="filter-info">
+          <div className="filter-info-compact">
             <p>
-              {filteredProducts.length} товаров • 
-              {selectedCategory === 'Все' ? ' Все категории' : ` ${selectedCategory}`}
-              {selectedSubcategory !== 'Все' && ` • ${selectedSubcategory}`}
-              {searchTerm && ` • Поиск: "${searchTerm}"`}
+              <span className="product-count">{filteredProducts.length} товаров</span>
+              {selectedCategory !== 'Все' && (
+                <span className="category-info"> • {selectedCategory}</span>
+              )}
+              {selectedSubcategory !== 'Все' && selectedSubcategory !== '' && (
+                <span className="subcategory-info"> • {selectedSubcategory}</span>
+              )}
+              {searchTerm && (
+                <span className="search-info"> • Поиск: "{searchTerm}"</span>
+              )}
             </p>
           </div>
 
@@ -275,70 +312,77 @@ function Menu() {
               </button>
             </div>
           ) : (
-            <div className="products-grid-new">
-              {filteredProducts.map(product => (
-                <div 
-                  key={product.id} 
-                  className="product-card-new"
-                  onClick={() => handleProductClick(product)}
-                >
-                  <div className="product-image-new">
-                    <img 
-                      src={product.image} 
-                      alt={product.name}
-                      loading="lazy"
-                    />
-                    {product.popular && (
-                      <span className="badge-popular">Популярный</span>
-                    )}
-                    {product.sizes && (
-                      <span className="sizes-badge">
-                        {product.sizes.join('/')}
-                      </span>
-                    )}
-                  </div>
-                  
-                  <div className="product-info-new">
-                    <div className="product-header-new">
-                      <h3 className="product-name-new">{product.name}</h3>
-                      <p className="product-price-new">
-                        {formatPriceRange(product)}
-                      </p>
-                    </div>
-                    
-                    <p className="product-description-new">
-                      {product.description || 'Вкусный напиток'}
-                    </p>
-                    
-                    <div className="product-tags">
-                      <span className="category-tag-new">{product.category}</span>
-                      {product.subcategory && product.subcategory !== 'Все' && (
-                        <span className="subcategory-tag">{product.subcategory}</span>
+            <>
+              <div className="products-grid-new">
+                {filteredProducts.map(product => (
+                  <div 
+                    key={product.id} 
+                    className="product-card-new"
+                    onClick={() => handleProductClick(product)}
+                  >
+                    <div className="product-image-new">
+                      <img 
+                        src={product.image} 
+                        alt={product.name}
+                        loading="lazy"
+                      />
+                      {product.popular && (
+                        <span className="badge-popular">Популярный</span>
+                      )}
+                      {product.sizes && product.sizes.length > 1 && (
+                        <span className="sizes-badge">
+                          {product.sizes.join('/')}
+                        </span>
                       )}
                     </div>
                     
-                    <div className="product-buttons">
-                      <button
-                        onClick={(e) => handleQuickAdd(product, e)}
-                        className="add-to-cart-btn-new quick-add-btn"
-                      >
-                        <span className="cart-icon-btn">🛒</span>
-                        Быстро добавить
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleProductClick(product);
-                        }}
-                        className="customize-btn"
-                      >
-                        Настроить размер →
-                      </button>
+                    <div className="product-info-new">
+                      <div className="product-header-new">
+                        <h3 className="product-name-new">{product.name}</h3>
+                        <p className="product-price-new">
+                          {formatPriceRange(product)}
+                        </p>
+                      </div>
+                      
+                      <p className="product-description-new">
+                        {product.description || 'Вкусный напиток'}
+                      </p>
+                      
+                      <div className="product-tags-compact">
+                        <span className="category-tag-compact">{product.category}</span>
+                        {product.subcategory && product.subcategory !== 'Все' && (
+                          <span className="subcategory-tag-compact">{product.subcategory}</span>
+                        )}
+                      </div>
+                      
+                      <div className="product-buttons-compact">
+                        <button
+                          onClick={(e) => handleQuickAdd(product, e)}
+                          className="add-to-cart-btn-compact quick-add-btn"
+                        >
+                          <span className="cart-icon-btn">🛒</span>
+                          Добавить
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleProductClick(product);
+                          }}
+                          className="customize-btn-compact"
+                        >
+                          Настроить
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+              
+              {/* Статистика внизу */}
+              <div className="menu-stats">
+                <p>Всего в меню: {products.length} товаров</p>
+              </div>
+            </>
           )}
         </div>
       </div>

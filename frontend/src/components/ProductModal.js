@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './ProductModal.css';
+import '../ProductModal.css';
 import { useCart } from '../context/CartContext';
 
 function ProductModal({ product, isOpen, onClose }) {
@@ -25,7 +25,7 @@ function ProductModal({ product, isOpen, onClose }) {
   const [milkType, setMilkType] = useState('обычное');
   const [quantity, setQuantity] = useState(1);
   
-  // Цены за размеры (берем из product.prices или используем product.price)
+  // Цены за размеры
   const sizePrices = product.prices || { [availableSizes[0]]: product.price || 0 };
   
   // Цены за дополнения
@@ -44,7 +44,7 @@ function ProductModal({ product, isOpen, onClose }) {
     'ягоды': 80
   };
   
-  // Дополнительная плата за растительное молоко (для завтраков)
+  // Дополнительная плата за растительное молоко
   const milkTypePrices = {
     'обычное': 0,
     'безлактозное': 50,
@@ -115,7 +115,7 @@ function ProductModal({ product, isOpen, onClose }) {
   
   if (!isOpen || !product) return null;
   
-  // Определяем, нужно ли показывать выбор молока (для завтраков)
+  // Определяем, нужно ли показывать выбор молока
   const showMilkSelection = product.category === 'Еда' && 
     (product.subcategory === 'Завтраки' || product.name.includes('каша'));
   
@@ -194,13 +194,14 @@ function ProductModal({ product, isOpen, onClose }) {
           )}
           
           {/* Дополнения */}
-          {(product.category === 'Еда' && product.subcategory === 'Завтраки') || 
-           product.name.includes('Сырники') || 
-           product.name.includes('каша') ? (
-            <div className="extras-section">
-              <h3>Дополнения</h3>
-              <div className="extras-grid">
-                {['сгущёнка', 'пюре манго', 'груша', 'халва', 'семена', 'клюква сушёная', 'ягоды'].map(extra => (
+          <div className="extras-section">
+            <h3>Дополнения</h3>
+            <div className="extras-grid">
+              {(product.category === 'Еда' && product.subcategory === 'Завтраки') || 
+               product.name.includes('Сырники') || 
+               product.name.includes('каша') ? (
+                // Дополнения для еды
+                ['сгущёнка', 'пюре манго', 'груша', 'халва', 'семена', 'клюква сушёная', 'ягоды'].map(extra => (
                   <div key={extra} className="extra-item">
                     <label className="extra-checkbox">
                       <input
@@ -210,19 +211,16 @@ function ProductModal({ product, isOpen, onClose }) {
                       />
                       <span className="checkmark"></span>
                       <span className="extra-name">
-                        {extra.charAt(0).toUpperCase() + extra.slice(extra)}
+                        {/* ИСПРАВЛЕНО: было extra.slice(extra), стало extra.slice(1) */}
+                        {extra.charAt(0).toUpperCase() + extra.slice(1)}
                       </span>
                     </label>
                     <span className="extra-price">+{extraPrices[extra]} ₽</span>
                   </div>
-                ))}
-              </div>
-            </div>
-          ) : (
-            <div className="extras-section">
-              <h3>Дополнения</h3>
-              <div className="extras-grid">
-                {['сироп', 'шоколад', 'корица', 'карамель', 'мята'].map(extra => (
+                ))
+              ) : (
+                // Дополнения для напитков
+                ['сироп', 'шоколад', 'корица', 'карамель', 'мята'].map(extra => (
                   <div key={extra} className="extra-item">
                     <label className="extra-checkbox">
                       <input
@@ -232,15 +230,16 @@ function ProductModal({ product, isOpen, onClose }) {
                       />
                       <span className="checkmark"></span>
                       <span className="extra-name">
-                        {extra.charAt(0).toUpperCase() + extra.slice(extra)}
+                        {/* ИСПРАВЛЕНО: было extra.slice(extra), стало extra.slice(1) */}
+                        {extra.charAt(0).toUpperCase() + extra.slice(1)}
                       </span>
                     </label>
                     <span className="extra-price">+{extraPrices[extra]} ₽</span>
                   </div>
-                ))}
-              </div>
+                ))
+              )}
             </div>
-          )}
+          </div>
           
           {/* Выбор количества */}
           <div className="quantity-section">
@@ -281,7 +280,7 @@ function ProductModal({ product, isOpen, onClose }) {
               .filter(extra => extras[extra] && extraPrices[extra])
               .map(extra => (
                 <div key={extra} className="price-row extra-price-row">
-                  <span>{extra.charAt(0).toUpperCase() + extra.slice(extra)}</span>
+                  <span>{extra.charAt(0).toUpperCase() + extra.slice(1)}</span>
                   <span>+{extraPrices[extra]} ₽</span>
                 </div>
               ))
