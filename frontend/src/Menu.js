@@ -158,8 +158,8 @@ function Menu() {
   const handleQuickAdd = (product, e) => {
     e.stopPropagation();
     
-    // Определяем размер по умолчанию
-    const defaultSize = product.sizes?.includes('M') ? 'M' : product.sizes?.[0] || 'M';
+    // ВСЕГДА используем размер M (350 мл) для быстрого добавления
+    const defaultSize = "M";
     const price = product.prices?.[defaultSize] || product.price || 0;
     
     addToCart({
@@ -168,7 +168,7 @@ function Menu() {
       customizations: { 
         size: defaultSize, 
         extras: [], 
-        milkType: 'обычное' 
+        milkType: "обычное" 
       },
       quantity: 1
     });
@@ -176,14 +176,14 @@ function Menu() {
     // Визуальная обратная связь
     const button = e.target;
     const originalText = button.innerHTML;
-    button.innerHTML = `<span class="cart-icon-btn">✓</span> Добавлено!`;
-    button.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+    button.innerHTML = `<span class="cart-icon-btn">✓</span> Добавлено (M)!`;
+    button.style.background = "linear-gradient(135deg, #10b981 0%, #059669 100%)";
     
     setTimeout(() => {
       button.innerHTML = originalText;
-      button.style.background = '';
+      button.style.background = "";
     }, 1500);
-  };
+  }
 
   // Форматирование цены для отображения
   const formatPriceRange = (product) => {
@@ -361,7 +361,7 @@ function Menu() {
                           className="add-to-cart-btn-compact quick-add-btn"
                         >
                           <span className="cart-icon-btn">🛒</span>
-                          Добавить
+                          Добавить (M)
                         </button>
                         <button
                           onClick={(e) => {

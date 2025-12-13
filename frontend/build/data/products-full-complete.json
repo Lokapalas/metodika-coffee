@@ -5,8 +5,14 @@
     "category": "Кофе",
     "subcategory": "Классика",
     "description": "Классический американо - эспрессо с горячей водой",
-    "prices": { "S": 220, "M": 280 },
-    "sizes": ["S", "M"],
+    "prices": {
+      "S": 220,
+      "M": 280
+    },
+    "sizes": [
+      "S",
+      "M"
+    ],
     "image": "https://images.unsplash.com/photo-1551030173-122aabc4489e?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -17,8 +23,12 @@
     "category": "Кофе",
     "subcategory": "Классика",
     "description": "Крепкий эспрессо, приготовленный под высоким давлением",
-    "prices": { "M": 180 },
-    "sizes": ["M"],
+    "prices": {
+      "M": 180
+    },
+    "sizes": [
+      "M"
+    ],
     "image": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -29,8 +39,16 @@
     "category": "Кофе",
     "subcategory": "Классика",
     "description": "Кофе с молочной пенкой идеальной текстуры",
-    "prices": { "S": 240, "M": 290, "L": 350 },
-    "sizes": ["S", "M", "L"],
+    "prices": {
+      "S": 240,
+      "M": 290,
+      "L": 350
+    },
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
     "image": "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -41,8 +59,16 @@
     "category": "Кофе",
     "subcategory": "Классика",
     "description": "Нежный кофе с большим количеством молока",
-    "prices": { "S": 240, "M": 290, "L": 340 },
-    "sizes": ["S", "M", "L"],
+    "prices": {
+      "S": 240,
+      "M": 290,
+      "L": 340
+    },
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
     "image": "https://images.unsplash.com/photo-1561047029-3000c68339ca?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -53,8 +79,16 @@
     "category": "Кофе",
     "subcategory": "Классика",
     "description": "Австралийский вариант латте с более крепким вкусом",
-    "prices": { "S": 260, "M": 320, "L": 360 },
-    "sizes": ["S", "M", "L"],
+    "prices": {
+      "S": 260,
+      "M": 320,
+      "L": 360
+    },
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
     "image": "https://images.unsplash.com/photo-1587734195670-0c3e7b5c5b5f?w=300&h=300&fit=crop",
     "popular": false,
     "inStock": true
@@ -65,8 +99,16 @@
     "category": "Кофе",
     "subcategory": "Классика",
     "description": "Нежный кофе со сливками и ванильным сиропом",
-    "prices": { "S": 300, "M": 360, "L": 390 },
-    "sizes": ["S", "M", "L"],
+    "prices": {
+      "S": 300,
+      "M": 360,
+      "L": 390
+    },
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
     "image": "https://images.unsplash.com/photo-1485808191679-5f86510681a2?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -77,8 +119,16 @@
     "category": "Кофе",
     "subcategory": "Спешел",
     "description": "Кофе, приготовленный методом фильтрации",
-    "prices": { "S": 210, "M": 260, "L": 290 },
-    "sizes": ["S", "M", "L"],
+    "prices": {
+      "S": 210,
+      "M": 260,
+      "L": 290
+    },
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
     "image": "https://images.unsplash.com/photo-1587734195507-6f5e8a2543c4?w=300&h=300&fit=crop",
     "popular": false,
     "inStock": true
@@ -89,8 +139,14 @@
     "category": "Кофе",
     "subcategory": "Спешел",
     "description": "Кофе, приготовленный с помощью аэропресса",
-    "prices": { "S": 210, "M": 260 },
-    "sizes": ["S", "M"],
+    "prices": {
+      "S": 210,
+      "M": 260
+    },
+    "sizes": [
+      "S",
+      "M"
+    ],
     "image": "https://images.unsplash.com/photo-1587734195507-6f5e8a2543c4?w=300&h=300&fit=crop",
     "popular": false,
     "inStock": true
@@ -101,8 +157,12 @@
     "category": "Кофе",
     "subcategory": "Спешел",
     "description": "Кофе, приготовленный с помощью аэрокано",
-    "prices": { "S": 210 },
-    "sizes": ["S"],
+    "prices": {
+      "S": 210
+    },
+    "sizes": [
+      "S"
+    ],
     "image": "https://images.unsplash.com/photo-1587734195507-6f5e8a2543c4?w=300&h=300&fit=crop",
     "popular": false,
     "inStock": true
@@ -113,8 +173,12 @@
     "category": "Кофе",
     "subcategory": "Спешел",
     "description": "Кофе, приготовленный во френч-прессе",
-    "prices": { "M": 280 },
-    "sizes": ["M"],
+    "prices": {
+      "M": 280
+    },
+    "sizes": [
+      "M"
+    ],
     "image": "https://images.unsplash.com/photo-1587734195503-6f5e8a2543c4?w=300&h=300&fit=crop",
     "popular": false,
     "inStock": true
@@ -125,8 +189,12 @@
     "category": "Кофе",
     "subcategory": "Спешел",
     "description": "Кофе, приготовленный методом воронки",
-    "prices": { "M": 280 },
-    "sizes": ["M"],
+    "prices": {
+      "M": 280
+    },
+    "sizes": [
+      "M"
+    ],
     "image": "https://images.unsplash.com/photo-1587734195503-6f5e8a2543c4?w=300&h=300&fit=crop",
     "popular": false,
     "inStock": true
@@ -137,8 +205,12 @@
     "category": "Кофе",
     "subcategory": "Спешел",
     "description": "Напиток из кофейной ягоды",
-    "prices": { "L": 350 },
-    "sizes": ["L"],
+    "prices": {
+      "L": 350
+    },
+    "sizes": [
+      "L"
+    ],
     "image": "https://images.unsplash.com/photo-1587734195507-6f5e8a2543c4?w=300&h=300&fit=crop",
     "popular": false,
     "inStock": true
@@ -149,8 +221,14 @@
     "category": "Кофе",
     "subcategory": "Не слипнется",
     "description": "Кофе с цитрусовыми нотами и пряностями",
-    "prices": { "M": 350, "L": 380 },
-    "sizes": ["M", "L"],
+    "prices": {
+      "M": 350,
+      "L": 380
+    },
+    "sizes": [
+      "M",
+      "L"
+    ],
     "image": "https://images.unsplash.com/photo-1587734195670-0c3e7b5c5b5f?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -161,8 +239,14 @@
     "category": "Кофе",
     "subcategory": "Не слипнется",
     "description": "Кофе с шоколадом и молоком",
-    "prices": { "M": 320, "L": 370 },
-    "sizes": ["M", "L"],
+    "prices": {
+      "M": 320,
+      "L": 370
+    },
+    "sizes": [
+      "M",
+      "L"
+    ],
     "image": "https://images.unsplash.com/photo-1587734195505-6f5e8a2543c4?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -173,8 +257,14 @@
     "category": "Кофе",
     "subcategory": "Не слипнется",
     "description": "Раф с арахисовой пастой",
-    "prices": { "M": 390, "L": 440 },
-    "sizes": ["M", "L"],
+    "prices": {
+      "M": 390,
+      "L": 440
+    },
+    "sizes": [
+      "M",
+      "L"
+    ],
     "image": "https://images.unsplash.com/photo-1485808191679-5f86510681a2?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -185,8 +275,14 @@
     "category": "Кофе",
     "subcategory": "Не слипнется",
     "description": "Раф с натуральным мёдом",
-    "prices": { "M": 370, "L": 410 },
-    "sizes": ["M", "L"],
+    "prices": {
+      "M": 370,
+      "L": 410
+    },
+    "sizes": [
+      "M",
+      "L"
+    ],
     "image": "https://images.unsplash.com/photo-1587734195502-6f5e8a2543c4?w=300&h=300&fit=crop",
     "popular": false,
     "inStock": true
@@ -197,8 +293,12 @@
     "category": "Кофе",
     "subcategory": "Оригинальный",
     "description": "Латте с вкусом знаменитых булочек",
-    "prices": { "M": 380 },
-    "sizes": ["M"],
+    "prices": {
+      "M": 380
+    },
+    "sizes": [
+      "M"
+    ],
     "image": "https://images.unsplash.com/photo-1561047029-3000c68339ca?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -209,8 +309,14 @@
     "category": "Кофе",
     "subcategory": "Оригинальный",
     "description": "Латте с малиновым сиропом и шоколадом",
-    "prices": { "M": 350, "L": 410 },
-    "sizes": ["M", "L"],
+    "prices": {
+      "M": 350,
+      "L": 410
+    },
+    "sizes": [
+      "M",
+      "L"
+    ],
     "image": "https://images.unsplash.com/photo-1587734195501-6f5e8a2543c4?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -221,8 +327,12 @@
     "category": "Кофе",
     "subcategory": "Оригинальный",
     "description": "Латте с шоколадом и халвой",
-    "prices": { "M": 390 },
-    "sizes": ["M"],
+    "prices": {
+      "M": 390
+    },
+    "sizes": [
+      "M"
+    ],
     "image": "https://images.unsplash.com/photo-1561047029-3000c68339ca?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -233,8 +343,14 @@
     "category": "Кофе",
     "subcategory": "Оригинальный",
     "description": "Латте с сырным кремом",
-    "prices": { "M": 400, "L": 430 },
-    "sizes": ["M", "L"],
+    "prices": {
+      "M": 400,
+      "L": 430
+    },
+    "sizes": [
+      "M",
+      "L"
+    ],
     "image": "https://images.unsplash.com/photo-1587734195500-6f5e8a2543c4?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -245,8 +361,14 @@
     "category": "Кофе",
     "subcategory": "Оригинальный",
     "description": "Кофе с тропическими нотами",
-    "prices": { "M": 400, "L": 430 },
-    "sizes": ["M", "L"],
+    "prices": {
+      "M": 400,
+      "L": 430
+    },
+    "sizes": [
+      "M",
+      "L"
+    ],
     "image": "https://images.unsplash.com/photo-1587734195670-0c3e7b5c5b5f?w=300&h=300&fit=crop",
     "popular": false,
     "inStock": true
@@ -257,8 +379,12 @@
     "category": "Кофе",
     "subcategory": "Оригинальный",
     "description": "Раф с грушей и чизкейком",
-    "prices": { "M": 450 },
-    "sizes": ["M"],
+    "prices": {
+      "M": 450
+    },
+    "sizes": [
+      "M"
+    ],
     "image": "https://images.unsplash.com/photo-1485808191679-5f86510681a2?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -269,8 +395,14 @@
     "category": "Кофе",
     "subcategory": "Холодный",
     "description": "Холодный латте со льдом",
-    "prices": { "M": 300, "L": 350 },
-    "sizes": ["M", "L"],
+    "prices": {
+      "M": 300,
+      "L": 350
+    },
+    "sizes": [
+      "M",
+      "L"
+    ],
     "image": "https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -281,8 +413,14 @@
     "category": "Кофе",
     "subcategory": "Холодный",
     "description": "Холодный кофейный напиток с лимоном",
-    "prices": { "M": 360, "L": 390 },
-    "sizes": ["M", "L"],
+    "prices": {
+      "M": 360,
+      "L": 390
+    },
+    "sizes": [
+      "M",
+      "L"
+    ],
     "image": "https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -293,8 +431,14 @@
     "category": "Кофе",
     "subcategory": "Холодный",
     "description": "Эспрессо с тоником и льдом",
-    "prices": { "M": 290, "L": 340 },
-    "sizes": ["M", "L"],
+    "prices": {
+      "M": 290,
+      "L": 340
+    },
+    "sizes": [
+      "M",
+      "L"
+    ],
     "image": "https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -305,8 +449,12 @@
     "category": "Кофе",
     "subcategory": "Холодный",
     "description": "Холодный латте с вкусом синнабона",
-    "prices": { "M": 390 },
-    "sizes": ["M"],
+    "prices": {
+      "M": 390
+    },
+    "sizes": [
+      "M"
+    ],
     "image": "https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -317,8 +465,14 @@
     "category": "Не кофе",
     "subcategory": "Какао",
     "description": "Классический горячий шоколад",
-    "prices": { "S": 220, "L": 350 },
-    "sizes": ["S", "L"],
+    "prices": {
+      "S": 220,
+      "L": 350
+    },
+    "sizes": [
+      "S",
+      "L"
+    ],
     "image": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -329,8 +483,14 @@
     "category": "Не кофе",
     "subcategory": "Какао",
     "description": "Особый горячий шоколад с добавками",
-    "prices": { "S": 250, "L": 380 },
-    "sizes": ["S", "L"],
+    "prices": {
+      "S": 250,
+      "L": 380
+    },
+    "sizes": [
+      "S",
+      "L"
+    ],
     "image": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=300&h=300&fit=crop",
     "popular": false,
     "inStock": true
@@ -341,8 +501,12 @@
     "category": "Не кофе",
     "subcategory": "Какао",
     "description": "Какао с малиновым сиропом",
-    "prices": { "M": 400 },
-    "sizes": ["M"],
+    "prices": {
+      "M": 400
+    },
+    "sizes": [
+      "M"
+    ],
     "image": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -353,8 +517,14 @@
     "category": "Не кофе",
     "subcategory": "Какао",
     "description": "Классический какао",
-    "prices": { "M": 290, "L": 330 },
-    "sizes": ["M", "L"],
+    "prices": {
+      "M": 290,
+      "L": 330
+    },
+    "sizes": [
+      "M",
+      "L"
+    ],
     "image": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -365,8 +535,14 @@
     "category": "Не кофе",
     "subcategory": "Какао",
     "description": "Особый какао с добавками",
-    "prices": { "M": 320, "L": 360 },
-    "sizes": ["M", "L"],
+    "prices": {
+      "M": 320,
+      "L": 360
+    },
+    "sizes": [
+      "M",
+      "L"
+    ],
     "image": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=300&h=300&fit=crop",
     "popular": false,
     "inStock": true
@@ -377,8 +553,14 @@
     "category": "Не кофе",
     "subcategory": "Молочный",
     "description": "Вспененное молоко для детей",
-    "prices": { "S": 170, "M": 220 },
-    "sizes": ["S", "M"],
+    "prices": {
+      "S": 170,
+      "M": 220
+    },
+    "sizes": [
+      "S",
+      "M"
+    ],
     "image": "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -389,8 +571,12 @@
     "category": "Не кофе",
     "subcategory": "Молочный",
     "description": "Классический молочный коктейль",
-    "prices": { "L": 370 },
-    "sizes": ["L"],
+    "prices": {
+      "L": 370
+    },
+    "sizes": [
+      "L"
+    ],
     "image": "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -401,8 +587,12 @@
     "category": "Не кофе",
     "subcategory": "Молочный",
     "description": "Молочный коктейль с ягодами",
-    "prices": { "L": 400 },
-    "sizes": ["L"],
+    "prices": {
+      "L": 400
+    },
+    "sizes": [
+      "L"
+    ],
     "image": "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -413,8 +603,16 @@
     "category": "Не кофе",
     "subcategory": "Матча",
     "description": "Традиционный японский чай с молоком",
-    "prices": { "S": 250, "M": 280, "L": 340 },
-    "sizes": ["S", "M", "L"],
+    "prices": {
+      "S": 250,
+      "M": 280,
+      "L": 340
+    },
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
     "image": "https://images.unsplash.com/photo-1558898434-af897d400a19?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -425,8 +623,12 @@
     "category": "Не кофе",
     "subcategory": "Матча",
     "description": "Матча с лимоном и газированной водой",
-    "prices": { "M": 380 },
-    "sizes": ["M"],
+    "prices": {
+      "M": 380
+    },
+    "sizes": [
+      "M"
+    ],
     "image": "https://images.unsplash.com/photo-1558898434-af897d400a19?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -437,8 +639,12 @@
     "category": "Не кофе",
     "subcategory": "Матча",
     "description": "Холодный матча-латте",
-    "prices": { "L": 350 },
-    "sizes": ["L"],
+    "prices": {
+      "L": 350
+    },
+    "sizes": [
+      "L"
+    ],
     "image": "https://images.unsplash.com/photo-1558898434-af897d400a19?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -449,8 +655,12 @@
     "category": "Не кофе",
     "subcategory": "Матча",
     "description": "Матча с тоником",
-    "prices": { "L": 340 },
-    "sizes": ["L"],
+    "prices": {
+      "L": 340
+    },
+    "sizes": [
+      "L"
+    ],
     "image": "https://images.unsplash.com/photo-1558898434-af897d400a19?w=300&h=300&fit=crop",
     "popular": false,
     "inStock": true
@@ -461,8 +671,12 @@
     "category": "Не кофе",
     "subcategory": "Полезно",
     "description": "Смузи из свежих ягод",
-    "prices": { "M": 380 },
-    "sizes": ["M"],
+    "prices": {
+      "M": 380
+    },
+    "sizes": [
+      "M"
+    ],
     "image": "https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -473,8 +687,12 @@
     "category": "Не кофе",
     "subcategory": "Полезно",
     "description": "Протеиновый коктейль для спортсменов",
-    "prices": { "L": 410 },
-    "sizes": ["L"],
+    "prices": {
+      "L": 410
+    },
+    "sizes": [
+      "L"
+    ],
     "image": "https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -485,8 +703,12 @@
     "category": "Еда",
     "subcategory": "Завтраки",
     "description": "На выбор: кофе + гранола/каша + сырники",
-    "prices": { "M": 590 },
-    "sizes": ["M"],
+    "prices": {
+      "M": 590
+    },
+    "sizes": [
+      "M"
+    ],
     "image": "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -497,8 +719,12 @@
     "category": "Еда",
     "subcategory": "Завтраки",
     "description": "Домашние сырники с топпингом на выбор",
-    "prices": { "M": 210 },
-    "sizes": ["M"],
+    "prices": {
+      "M": 210
+    },
+    "sizes": [
+      "M"
+    ],
     "image": "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -509,8 +735,12 @@
     "category": "Еда",
     "subcategory": "Завтраки",
     "description": "Гранола с обычным молоком",
-    "prices": { "M": 250 },
-    "sizes": ["M"],
+    "prices": {
+      "M": 250
+    },
+    "sizes": [
+      "M"
+    ],
     "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -521,8 +751,12 @@
     "category": "Еда",
     "subcategory": "Завтраки",
     "description": "Каша с добавлением рафа",
-    "prices": { "M": 190 },
-    "sizes": ["M"],
+    "prices": {
+      "M": 190
+    },
+    "sizes": [
+      "M"
+    ],
     "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -533,8 +767,12 @@
     "category": "Еда",
     "subcategory": "Завтраки",
     "description": "Раф каша с ягодами",
-    "prices": { "M": 240 },
-    "sizes": ["M"],
+    "prices": {
+      "M": 240
+    },
+    "sizes": [
+      "M"
+    ],
     "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -545,8 +783,12 @@
     "category": "Еда",
     "subcategory": "Завтраки",
     "description": "Рисовая каша с манго и халвой",
-    "prices": { "M": 350 },
-    "sizes": ["M"],
+    "prices": {
+      "M": 350
+    },
+    "sizes": [
+      "M"
+    ],
     "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -557,8 +799,12 @@
     "category": "Еда",
     "subcategory": "Завтраки",
     "description": "Рисовая каша с грушей и халвой",
-    "prices": { "M": 350 },
-    "sizes": ["M"],
+    "prices": {
+      "M": 350
+    },
+    "sizes": [
+      "M"
+    ],
     "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -569,8 +815,12 @@
     "category": "Еда",
     "subcategory": "Завтраки",
     "description": "Каша из 5 злаков",
-    "prices": { "M": 150 },
-    "sizes": ["M"],
+    "prices": {
+      "M": 150
+    },
+    "sizes": [
+      "M"
+    ],
     "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&h=300&fit=crop",
     "popular": false,
     "inStock": true
@@ -581,8 +831,12 @@
     "category": "Еда",
     "subcategory": "Завтраки",
     "description": "Классическая рисовая каша",
-    "prices": { "M": 150 },
-    "sizes": ["M"],
+    "prices": {
+      "M": 150
+    },
+    "sizes": [
+      "M"
+    ],
     "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&h=300&fit=crop",
     "popular": false,
     "inStock": true
@@ -593,8 +847,12 @@
     "category": "Еда",
     "subcategory": "Завтраки",
     "description": "Пшённая каша",
-    "prices": { "M": 150 },
-    "sizes": ["M"],
+    "prices": {
+      "M": 150
+    },
+    "sizes": [
+      "M"
+    ],
     "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&h=300&fit=crop",
     "popular": false,
     "inStock": true
@@ -605,8 +863,12 @@
     "category": "Еда",
     "subcategory": "Пицца",
     "description": "Пицца с четырьмя видами сыра",
-    "prices": { "M": 700 },
-    "sizes": ["M"],
+    "prices": {
+      "M": 700
+    },
+    "sizes": [
+      "M"
+    ],
     "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -617,8 +879,12 @@
     "category": "Еда",
     "subcategory": "Пицца",
     "description": "Пицца с ветчиной и грибами",
-    "prices": { "M": 700 },
-    "sizes": ["M"],
+    "prices": {
+      "M": 700
+    },
+    "sizes": [
+      "M"
+    ],
     "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -629,8 +895,12 @@
     "category": "Еда",
     "subcategory": "Пицца",
     "description": "Пицца с грушей и сыром горгонзола",
-    "prices": { "M": 700 },
-    "sizes": ["M"],
+    "prices": {
+      "M": 700
+    },
+    "sizes": [
+      "M"
+    ],
     "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=300&h=300&fit=crop",
     "popular": false,
     "inStock": true
@@ -641,8 +911,12 @@
     "category": "Еда",
     "subcategory": "Пицца",
     "description": "Классическая пицца Маргарита",
-    "prices": { "M": 700 },
-    "sizes": ["M"],
+    "prices": {
+      "M": 700
+    },
+    "sizes": [
+      "M"
+    ],
     "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -653,8 +927,12 @@
     "category": "Еда",
     "subcategory": "Пицца",
     "description": "Пицца с различными видами мяса",
-    "prices": { "M": 700 },
-    "sizes": ["M"],
+    "prices": {
+      "M": 700
+    },
+    "sizes": [
+      "M"
+    ],
     "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -665,8 +943,12 @@
     "category": "Еда",
     "subcategory": "Пицца",
     "description": "Пицца с колбасой пепперони",
-    "prices": { "M": 700 },
-    "sizes": ["M"],
+    "prices": {
+      "M": 700
+    },
+    "sizes": [
+      "M"
+    ],
     "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -677,8 +959,12 @@
     "category": "Еда",
     "subcategory": "Первые блюда",
     "description": "Наваристый куриный суп с лапшой",
-    "prices": { "M": 280 },
-    "sizes": ["M"],
+    "prices": {
+      "M": 280
+    },
+    "sizes": [
+      "M"
+    ],
     "image": "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -689,8 +975,12 @@
     "category": "Еда",
     "subcategory": "Вторые блюда",
     "description": "Котлеты с картофельным пюре и сырным соусом",
-    "prices": { "M": 450 },
-    "sizes": ["M"],
+    "prices": {
+      "M": 450
+    },
+    "sizes": [
+      "M"
+    ],
     "image": "https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -701,8 +991,12 @@
     "category": "Еда",
     "subcategory": "Вторые блюда",
     "description": "Паста в сливочно-шпинатном соусе с цыплёнком",
-    "prices": { "M": 400 },
-    "sizes": ["M"],
+    "prices": {
+      "M": 400
+    },
+    "sizes": [
+      "M"
+    ],
     "image": "https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true
@@ -713,8 +1007,12 @@
     "category": "Еда",
     "subcategory": "Вторые блюда",
     "description": "Лапша удон с курицей и овощами",
-    "prices": { "M": 500 },
-    "sizes": ["M"],
+    "prices": {
+      "M": 500
+    },
+    "sizes": [
+      "M"
+    ],
     "image": "https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=300&h=300&fit=crop",
     "popular": true,
     "inStock": true

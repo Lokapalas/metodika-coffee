@@ -119,6 +119,16 @@ function ProductModal({ product, isOpen, onClose }) {
   const showMilkSelection = product.category === 'Еда' && 
     (product.subcategory === 'Завтраки' || product.name.includes('каша'));
   
+  // Функция для получения объема по размеру (новые размеры)
+  const getVolumeForSize = (size) => {
+    switch(size) {
+      case 'S': return '250 мл';
+      case 'M': return '350 мл';
+      case 'L': return '400 мл';
+      default: return '';
+    }
+  };
+  
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-container" onClick={(e) => e.stopPropagation()}>
@@ -162,9 +172,7 @@ function ProductModal({ product, isOpen, onClose }) {
                       {sizePrices[size] || 0} ₽
                     </span>
                     <span className="size-volume">
-                      {size === 'S' ? '300 мл' : 
-                       size === 'M' ? '450 мл' : 
-                       '600 мл'}
+                      {getVolumeForSize(size)}
                     </span>
                   </button>
                 ))}
@@ -211,7 +219,6 @@ function ProductModal({ product, isOpen, onClose }) {
                       />
                       <span className="checkmark"></span>
                       <span className="extra-name">
-                        {/* ИСПРАВЛЕНО: было extra.slice(extra), стало extra.slice(1) */}
                         {extra.charAt(0).toUpperCase() + extra.slice(1)}
                       </span>
                     </label>
@@ -230,7 +237,6 @@ function ProductModal({ product, isOpen, onClose }) {
                       />
                       <span className="checkmark"></span>
                       <span className="extra-name">
-                        {/* ИСПРАВЛЕНО: было extra.slice(extra), стало extra.slice(1) */}
                         {extra.charAt(0).toUpperCase() + extra.slice(1)}
                       </span>
                     </label>
