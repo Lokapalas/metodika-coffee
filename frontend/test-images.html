@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Тест изображений Metodika Coffee</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .image-test { margin: 20px 0; padding: 10px; border: 1px solid #ccc; }
+        .image-test img { max-width: 200px; max-height: 150px; border: 1px solid #ddd; }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Тест локальных изображений</h1>
+    <div id="tests"></div>
+    
+    <script>
+        // Тестовые пути из JSON
+        const testImages = [
+            { name: "Американо", path: "/images/products/coffee/americano.jpg", expected: true },
+            { name: "Капучино", path: "/images/products/coffee/kapuchino.jpg", expected: true },
+            { name: "Сырники", path: "/images/products/breakfast/syrniki.jpg", expected: true },
+            { name: "Пицца 4 сыра", path: "/images/products/pizza/pizza-4-syra.jpg", expected: true },
+            { name: "Несуществующее", path: "/images/products/test/nonexistent.jpg", expected: false }
+        ];
+        
+        const container = document.getElementById('tests');
+        
+        testImages.forEach(test => {
+            const div = document.createElement('div');
+            div.className = 'image-test';
+            
+            const img = document.createElement('img');
+            img.src = test.path;
+            img.alt = test.name;
+            
+            const status = document.createElement('div');
+            
+            img.onload = function() {
+                status.innerHTML = `<span class="success">✓ Успех: ${test.name} загружена</span>`;
+                status.innerHTML += `<br>Путь: ${test.path}`;
+            };
+            
+            img.onerror = function() {
+                if (test.expected) {
+                    status.innerHTML = `<span class="error">✗ Ошибка: ${test.name} не найдена</span>`;
+                    status.innerHTML += `<br>Путь: ${test.path}`;
+                    status.innerHTML += `<br>Проверьте: public${test.path}`;
+                } else {
+                    status.innerHTML = `<span class="success">✓ Ожидаемая ошибка: ${test.name}</span>`;
+                }
+            };
+            
+            div.innerHTML = `<h3>${test.name}</h3>`;
+            div.appendChild(img);
+            div.appendChild(status);
+            container.appendChild(div);
+        });
+        
+        // Проверка базового URL
+        console.log("Текущий базовый URL:", window.location.origin);
+        console.log("Путь:", window.location.pathname);
+    </script>
+</body>
+</html>

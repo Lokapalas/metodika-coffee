@@ -13,7 +13,7 @@
       "S",
       "M"
     ],
-    "image": "images/products/coffee/americano.jpg",
+    "image": "images/products/coffee/amerikano.jpg",
     "popular": true,
     "inStock": true
   },
@@ -49,7 +49,7 @@
       "M",
       "L"
     ],
-    "image": "images/products/coffee/cappuccino.jpg",
+    "image": "images/products/coffee/kapuchino.jpg",
     "popular": true,
     "inStock": true
   },
@@ -89,7 +89,7 @@
       "M",
       "L"
     ],
-    "image": "images/products/coffee/flat-white.jpg",
+    "image": "images/products/coffee/flet-uayt.jpg",
     "popular": false,
     "inStock": true
   },
@@ -129,7 +129,7 @@
       "M",
       "L"
     ],
-    "image": "images/products/coffee/filter.jpg",
+    "image": "images/products/coffee/filtr.jpg",
     "popular": false,
     "inStock": true
   },
@@ -147,7 +147,7 @@
       "S",
       "M"
     ],
-    "image": "images/products/coffee/filter.jpg",
+    "image": "images/products/coffee/aerofiltr.jpg",
     "popular": false,
     "inStock": true
   },
@@ -163,7 +163,7 @@
     "sizes": [
       "S"
     ],
-    "image": "images/products/coffee/americano.jpg",
+    "image": "images/products/coffee/aerokano.jpg",
     "popular": false,
     "inStock": true
   },
@@ -195,7 +195,7 @@
     "sizes": [
       "M"
     ],
-    "image": "images/products/coffee/default.jpg",
+    "image": "images/products/coffee/voronka.jpg",
     "popular": false,
     "inStock": true
   },
@@ -211,7 +211,7 @@
     "sizes": [
       "L"
     ],
-    "image": "images/products/coffee/default.jpg",
+    "image": "images/products/coffee/kaskara.jpg",
     "popular": false,
     "inStock": true
   },
@@ -229,7 +229,7 @@
       "M",
       "L"
     ],
-    "image": "images/products/coffee/default.jpg",
+    "image": "images/products/coffee/ognennyy-tsitrus.jpg",
     "popular": true,
     "inStock": true
   },
@@ -247,7 +247,7 @@
       "M",
       "L"
     ],
-    "image": "images/products/coffee/default.jpg",
+    "image": "images/products/coffee/mokko.jpg",
     "popular": true,
     "inStock": true
   },
@@ -265,7 +265,7 @@
       "M",
       "L"
     ],
-    "image": "images/products/coffee/raf.jpg",
+    "image": "images/products/coffee/raf-arahisovyy.jpg",
     "popular": true,
     "inStock": true
   },
@@ -283,7 +283,7 @@
       "M",
       "L"
     ],
-    "image": "images/products/coffee/raf.jpg",
+    "image": "images/products/coffee/raf-medovyy.jpg",
     "popular": false,
     "inStock": true
   },
@@ -299,7 +299,7 @@
     "sizes": [
       "M"
     ],
-    "image": "images/products/coffee/latte.jpg",
+    "image": "images/products/coffee/latte-sinnabon.jpg",
     "popular": true,
     "inStock": true
   },
@@ -317,7 +317,7 @@
       "M",
       "L"
     ],
-    "image": "images/products/coffee/latte.jpg",
+    "image": "images/products/coffee/latte-malina-v-shokolade.jpg",
     "popular": true,
     "inStock": true
   },
@@ -333,7 +333,7 @@
     "sizes": [
       "M"
     ],
-    "image": "images/products/coffee/latte.jpg",
+    "image": "images/products/coffee/latte-shokoladnaya-halva.jpg",
     "popular": true,
     "inStock": true
   },
@@ -351,7 +351,7 @@
       "M",
       "L"
     ],
-    "image": "images/products/coffee/latte.jpg",
+    "image": "images/products/coffee/syrnyy-latte.jpg",
     "popular": true,
     "inStock": true
   },
@@ -369,7 +369,7 @@
       "M",
       "L"
     ],
-    "image": "images/products/coffee/default.jpg",
+    "image": "images/products/coffee/ognennyy-tropik.jpg",
     "popular": false,
     "inStock": true
   },
@@ -385,7 +385,7 @@
     "sizes": [
       "M"
     ],
-    "image": "images/products/coffee/raf.jpg",
+    "image": "images/products/coffee/raf-grushevyy-chiskeyk.jpg",
     "popular": true,
     "inStock": true
   },
@@ -403,7 +403,7 @@
       "M",
       "L"
     ],
-    "image": "images/products/coffee/latte.jpg",
+    "image": "images/products/coffee/ays-latte.jpg",
     "popular": true,
     "inStock": true
   },
@@ -421,7 +421,7 @@
       "M",
       "L"
     ],
-    "image": "images/products/coffee/default.jpg",
+    "image": "images/products/coffee/bambl.jpg",
     "popular": true,
     "inStock": true
   },
@@ -439,7 +439,7 @@
       "M",
       "L"
     ],
-    "image": "images/products/coffee/espresso.jpg",
+    "image": "images/products/coffee/espresso-tonik.jpg",
     "popular": true,
     "inStock": true
   },
@@ -455,7 +455,7 @@
     "sizes": [
       "M"
     ],
-    "image": "images/products/coffee/latte.jpg",
+    "image": "images/products/coffee/ays-latte-sinnabon.jpg",
     "popular": true,
     "inStock": true
   },
@@ -473,7 +473,7 @@
       "S",
       "L"
     ],
-    "image": "images/products/coffee/hot-chocolate.jpg",
+    "image": "images/products/coffee/goryachiy-shokolad.jpg",
     "popular": true,
     "inStock": true
   },
@@ -491,7 +491,7 @@
       "S",
       "L"
     ],
-    "image": "images/products/coffee/hot-chocolate.jpg",
+    "image": "images/products/coffee/goryachiy-shokolad-speshel.jpg",
     "popular": false,
     "inStock": true
   },
@@ -507,7 +507,7 @@
     "sizes": [
       "M"
     ],
-    "image": "images/products/coffee/default.jpg",
+    "image": "images/products/coffee/malinovyy-kakao.jpg",
     "popular": true,
     "inStock": true
   },
@@ -525,7 +525,7 @@
       "M",
       "L"
     ],
-    "image": "images/products/coffee/default.jpg",
+    "image": "images/products/coffee/kakao.jpg",
     "popular": true,
     "inStock": true
   },
@@ -543,7 +543,7 @@
       "M",
       "L"
     ],
-    "image": "images/products/coffee/default.jpg",
+    "image": "images/products/coffee/kakao-speshel.jpg",
     "popular": false,
     "inStock": true
   },
@@ -561,7 +561,7 @@
       "S",
       "M"
     ],
-    "image": "images/products/coffee/default.jpg",
+    "image": "images/products/coffee/beybichino.jpg",
     "popular": true,
     "inStock": true
   },
@@ -577,7 +577,7 @@
     "sizes": [
       "L"
     ],
-    "image": "images/products/coffee/milkshake.jpg",
+    "image": "images/products/coffee/molochnyy-kokteyl.jpg",
     "popular": true,
     "inStock": true
   },
@@ -593,7 +593,7 @@
     "sizes": [
       "L"
     ],
-    "image": "images/products/coffee/milkshake.jpg",
+    "image": "images/products/coffee/molochnyy-kokteyl-yagodnyy.jpg",
     "popular": true,
     "inStock": true
   },
@@ -629,7 +629,7 @@
     "sizes": [
       "M"
     ],
-    "image": "images/products/coffee/default.jpg",
+    "image": "images/products/coffee/matcha-bambl.jpg",
     "popular": true,
     "inStock": true
   },
@@ -645,7 +645,7 @@
     "sizes": [
       "L"
     ],
-    "image": "images/products/coffee/latte.jpg",
+    "image": "images/products/coffee/ays-matcha-latte.jpg",
     "popular": true,
     "inStock": true
   },
@@ -661,7 +661,7 @@
     "sizes": [
       "L"
     ],
-    "image": "images/products/coffee/default.jpg",
+    "image": "images/products/coffee/matcha-tonik.jpg",
     "popular": false,
     "inStock": true
   },
@@ -677,7 +677,7 @@
     "sizes": [
       "M"
     ],
-    "image": "images/products/coffee/default.jpg",
+    "image": "images/products/coffee/yagodnyy-smuzi.jpg",
     "popular": true,
     "inStock": true
   },
@@ -693,7 +693,7 @@
     "sizes": [
       "L"
     ],
-    "image": "images/products/coffee/default.jpg",
+    "image": "images/products/coffee/proteinovyy-kokteyl.jpg",
     "popular": true,
     "inStock": true
   },
@@ -709,7 +709,7 @@
     "sizes": [
       "M"
     ],
-    "image": "images/products/breakfast/breakfast-combo.jpg",
+    "image": "images/products/breakfast/kombo-zavtrak.jpg",
     "popular": true,
     "inStock": true
   },
@@ -725,7 +725,7 @@
     "sizes": [
       "M"
     ],
-    "image": "images/products/breakfast/cheesecakes.jpg",
+    "image": "images/products/breakfast/syrniki-s-topingom.jpg",
     "popular": true,
     "inStock": true
   },
@@ -741,7 +741,7 @@
     "sizes": [
       "M"
     ],
-    "image": "images/products/food/granola.jpg",
+    "image": "images/products/food/granola-na-moloke.jpg",
     "popular": true,
     "inStock": true
   },
@@ -757,7 +757,7 @@
     "sizes": [
       "M"
     ],
-    "image": "images/products/breakfast/raf.jpg",
+    "image": "images/products/breakfast/raf-kasha.jpg",
     "popular": true,
     "inStock": true
   },
@@ -773,7 +773,7 @@
     "sizes": [
       "M"
     ],
-    "image": "images/products/breakfast/raf.jpg",
+    "image": "images/products/breakfast/raf-kasha-yagodnaya.jpg",
     "popular": true,
     "inStock": true
   },
@@ -789,7 +789,7 @@
     "sizes": [
       "M"
     ],
-    "image": "images/products/breakfast/default.jpg",
+    "image": "images/products/breakfast/kasha-risovaya-s-mango-i-halvoy.jpg",
     "popular": true,
     "inStock": true
   },
@@ -805,7 +805,7 @@
     "sizes": [
       "M"
     ],
-    "image": "images/products/breakfast/default.jpg",
+    "image": "images/products/breakfast/kasha-risovaya-s-grushey-i-halvoy.jpg",
     "popular": true,
     "inStock": true
   },
@@ -821,7 +821,7 @@
     "sizes": [
       "M"
     ],
-    "image": "images/products/breakfast/default.jpg",
+    "image": "images/products/breakfast/kasha-5-zlakov.jpg",
     "popular": false,
     "inStock": true
   },
@@ -837,7 +837,7 @@
     "sizes": [
       "M"
     ],
-    "image": "images/products/breakfast/default.jpg",
+    "image": "images/products/breakfast/kasha-risovaya.jpg",
     "popular": false,
     "inStock": true
   },
@@ -853,7 +853,7 @@
     "sizes": [
       "M"
     ],
-    "image": "images/products/breakfast/default.jpg",
+    "image": "images/products/breakfast/kasha-pshennaya.jpg",
     "popular": false,
     "inStock": true
   },
@@ -869,7 +869,7 @@
     "sizes": [
       "M"
     ],
-    "image": "images/products/pizza/pizza-4-cheese.jpg",
+    "image": "images/products/pizza/pitstsa-4-syra.jpg",
     "popular": true,
     "inStock": true
   },
@@ -885,7 +885,7 @@
     "sizes": [
       "M"
     ],
-    "image": "images/products/pizza/pizza-margherita.jpg",
+    "image": "images/products/pizza/pitstsa-vetchina-i-griby.jpg",
     "popular": true,
     "inStock": true
   },
@@ -901,7 +901,7 @@
     "sizes": [
       "M"
     ],
-    "image": "images/products/pizza/pizza-margherita.jpg",
+    "image": "images/products/pizza/pitstsa-grusha-gorgonzolla.jpg",
     "popular": false,
     "inStock": true
   },
@@ -917,7 +917,7 @@
     "sizes": [
       "M"
     ],
-    "image": "images/products/pizza/pizza-margherita.jpg",
+    "image": "images/products/pizza/pitstsa-margarita.jpg",
     "popular": true,
     "inStock": true
   },
@@ -933,7 +933,7 @@
     "sizes": [
       "M"
     ],
-    "image": "images/products/pizza/pizza-margherita.jpg",
+    "image": "images/products/pizza/pitstsa-myasnaya.jpg",
     "popular": true,
     "inStock": true
   },
@@ -949,7 +949,7 @@
     "sizes": [
       "M"
     ],
-    "image": "images/products/pizza/pizza-pepperoni.jpg",
+    "image": "images/products/pizza/pitstsa-pepperoni.jpg",
     "popular": true,
     "inStock": true
   },
@@ -965,7 +965,7 @@
     "sizes": [
       "M"
     ],
-    "image": "images/products/food/chicken-soup.jpg",
+    "image": "images/products/food/kurinyy-sup-lapsha.jpg",
     "popular": true,
     "inStock": true
   },
@@ -981,7 +981,7 @@
     "sizes": [
       "M"
     ],
-    "image": "images/products/food/chicken-cutlets.jpg",
+    "image": "images/products/food/kurinye-kotlety-s-pyure.jpg",
     "popular": true,
     "inStock": true
   },
@@ -997,7 +997,7 @@
     "sizes": [
       "M"
     ],
-    "image": "images/products/food/default.jpg",
+    "image": "images/products/food/pasta-s-tsyplenkom.jpg",
     "popular": true,
     "inStock": true
   },
@@ -1013,7 +1013,7 @@
     "sizes": [
       "M"
     ],
-    "image": "images/products/food/default.jpg",
+    "image": "images/products/food/lapsha-udon-s-kuritsey-i-ovoschami.jpg",
     "popular": true,
     "inStock": true
   }
