@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <circle cx="100" cy="100" r="90" fill="#4CAF50" stroke="#2c3e50" stroke-width="4"/>
+  <circle cx="100" cy="100" r="70" fill="#2c3e50"/>
+  <path d="M70,100 Q100,60 130,100 Q100,140 70,100" fill="#FFD700"/>
+  <path d="M85,95 Q100,80 115,95 Q100,110 85,95" fill="#4CAF50"/>
+  <text x="100" y="175" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="16" font-weight="bold">
+    МЕТОДИКА КОФЕ
+  </text>
+</svg>

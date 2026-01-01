@@ -1,0 +1,40 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: #f8f9fa;
+    color: #333;
+}
+
+/* Убираем скроллбар в мини-приложении */
+::-webkit-scrollbar {
+    display: none;
+}
+
+/* Улучшаем тач-события */
+button {
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Анимации */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.product-card {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Для мини-приложения Telegram */
+.tma-body {
+    background: transparent !important;
+}

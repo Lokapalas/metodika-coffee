@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест модального окна</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #4f46e5;
+            padding-bottom: 10px;
+        }
+        .extras-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .extra-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        .extra-name {
+            font-weight: 500;
+        }
+        .extra-price {
+            color: #10b981;
+            font-weight: 600;
+        }
+        .check-status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #10b981;
+        }
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #ef4444;
+        }
+        .test-button {
+            background: #4f46e5;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Тест названий дополнений</h1>
+        
+        <div class="check-status success" id="statusCheck">
+            Проверка названий...
+        </div>
+        
+        <h2>Ожидаемые названия дополнений:</h2>
+        <div class="extras-list">
+            <div class="extra-item">
+                <span class="extra-name">Сироп</span>
+                <span class="extra-price">+30 ₽</span>
+            </div>
+            <div class="extra-item">
+                <span class="extra-name">Шоколад</span>
+                <span class="extra-price">+40 ₽</span>
+            </div>
+            <div class="extra-item">
+                <span class="extra-name">Корица</span>
+                <span class="extra-price">+20 ₽</span>
+            </div>
+            <div class="extra-item">
+                <span class="extra-name">Карамель</span>
+                <span class="extra-price">+35 ₽</span>
+            </div>
+            <div class="extra-item">
+                <span class="extra-name">Мята</span>
+                <span class="extra-price">+25 ₽</span>
+            </div>
+        </div>
+        
+        <h2>Проверка опечаток:</h2>
+        <div id="typoCheck"></div>
+        
+        <button class="test-button" onclick="checkTypos()">
+            Проверить на опечатки
+        </button>
+    </div>
+    
+    <script>
+        const typos = ['Ссироп', 'Шшоколад', 'Ккорица', 'Ккарамель', 'Ммята'];
+        const correct = ['сироп', 'шоколад', 'корица', 'карамель', 'мята'];
+        
+        function checkTypos() {
+            const typoCheck = document.getElementById('typoCheck');
+            const statusCheck = document.getElementById('statusCheck');
+            
+            let foundTypos = false;
+            let html = '<ul>';
+            
+            for (let i = 0; i < typos.length; i++) {
+                const typo = typos[i];
+                const correctName = correct[i];
+                
+                // Проверяем в текущем документе
+                const hasTypo = document.body.innerText.includes(typo);
+                
+                if (hasTypo) {
+                    foundTypos = true;
+                    html += `<li class="error-item" style="color: #ef4444; margin: 5px 0;">
+                        <strong>Найдена опечатка:</strong> "${typo}" → должно быть "${correctName}"
+                    </li>`;
+                } else {
+                    html += `<li style="color: #10b981; margin: 5px 0;">
+                        ✓ "${correctName}" - правильно
+                    </li>`;
+                }
+            }
+            
+            html += '</ul>';
+            typoCheck.innerHTML = html;
+            
+            if (foundTypos) {
+                statusCheck.className = 'check-status error';
+                statusCheck.innerHTML = '❌ Найдены опечатки! Проверьте файлы проекта.';
+            } else {
+                statusCheck.className = 'check-status success';
+                statusCheck.innerHTML = '✅ Все названия правильные! Опечаток не найдено.';
+            }
+        }
+        
+        // Автопроверка при загрузке
+        window.onload = checkTypos;
+    </script>
+</body>
+</html>
