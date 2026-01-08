@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import './Menu.css';
-import ProductModal from './components/ProductModal';
+import ProductModalNew from './components/ProductModalNew'; // ЗАМЕНА ТУТ
 import { useCart } from './context/CartContext';
 
 function Menu() {
@@ -15,7 +15,7 @@ function Menu() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showSubcategories, setShowSubcategories] = useState(false);
-  
+
   const { addToCart } = useCart();
 
   // Категории для навигации
@@ -42,19 +42,19 @@ function Menu() {
       try {
         // Используем полное меню
         const response = await fetch('/data/products-full-complete.json');
-        
+
         if (!response.ok) throw new Error(`Ошибка загрузки: ${response.status}`);
-        
+
         const data = await response.json();
         setProducts(data);
         setFilteredProducts(data);
         setLoading(false);
-        
+
         console.log(`✅ Загружено ${data.length} товаров из полного меню`);
       } catch (err) {
         console.error('Ошибка при загрузке товаров:', err);
         setError('Не удалось загрузить товары. Пробуем загрузить базовое меню...');
-        
+
         // Пробуем загрузить резервный файл
         try {
           const backupResponse = await fetch('/data/products-full.json');
@@ -71,18 +71,18 @@ function Menu() {
         } catch (backupErr) {
           console.error('Ошибка при загрузке резервного файла:', backupErr);
           setLoading(false);
-          
+
           // Fallback на минимальные данные
           const mockProducts = [
-            { 
-              id: 1, 
-              name: "Эспрессо", 
-              price: 180, 
-              category: "Кофе", 
+            {
+              id: 1,
+              name: "Эспрессо",
+              price: 180,
+              category: "Кофе",
               subcategory: "Классика",
-              image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=300&h=200&fit=crop", 
+              image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=300&h=200&fit=crop",
               description: "Классический крепкий кофе",
-              popular: true 
+              popular: true
             },
           ];
           setProducts(mockProducts);
@@ -154,31 +154,49 @@ function Menu() {
     document.body.style.overflow = 'auto';
   };
 
+  // Функция для добавления в корзину (нужна для нового модального окна)
+  const handleAddToCart = (productWithOptions) => {
+    // Преобразуем формат нового модального окна в формат текущей корзины
+    const cartItem = {
+      ...productWithOptions,
+      price: productWithOptions.totalPrice || productWithOptions.price,
+      customizations: {
+        size: productWithOptions.selectedSize || 'M',
+        extras: productWithOptions.toppings || [],
+        milkType: "обычное"
+      },
+      quantity: productWithOptions.quantity || 1
+    };
+    
+    addToCart(cartItem);
+    handleCloseModal();
+  };
+
   // Быстрое добавление в корзину
   const handleQuickAdd = (product, e) => {
     e.stopPropagation();
-    
+
     // ВСЕГДА используем размер M (350 мл) для быстрого добавления
     const defaultSize = "M";
     const price = product.prices?.[defaultSize] || product.price || 0;
-    
+
     addToCart({
       ...product,
       price: price,
-      customizations: { 
-        size: defaultSize, 
-        extras: [], 
-        milkType: "обычное" 
+      customizations: {
+        size: defaultSize,
+        extras: [],
+        milkType: "обычное"
       },
       quantity: 1
     });
-    
+
     // Визуальная обратная связь
     const button = e.target;
     const originalText = button.innerHTML;
     button.innerHTML = `<span class="cart-icon-btn">✓</span> Добавлено (M)!`;
     button.style.background = "linear-gradient(135deg, #10b981 0%, #059669 100%)";
-    
+
     setTimeout(() => {
       button.innerHTML = originalText;
       button.style.background = "";
@@ -188,13 +206,25 @@ function Menu() {
   // Форматирование цены для отображения
   const formatPriceRange = (product) => {
     if (!product.prices) return `${product.price || 0} ₽`;
-    
+
     const prices = Object.values(product.prices);
     if (prices.length === 1) return `${prices[0]} ₽`;
-    
+
     const min = Math.min(...prices);
     const max = Math.max(...prices);
     return `${min} - ${max} ₽`;
+  };
+
+  // Извлечение базовой цены из товара (для нового модального окна)
+  const extractBasePrice = (product) => {
+    if (product.price) {
+      const match = product.price.toString().match(/(\d+)/);
+      return match ? parseInt(match[1]) : 280;
+    }
+    if (product.prices && product.prices.M) {
+      return product.prices.M;
+    }
+    return 280;
   };
 
   // Показать загрузку
@@ -300,7 +330,7 @@ function Menu() {
             <div className="no-products">
               <h3>Товары не найдены</h3>
               <p>Попробуйте изменить критерии поиска</p>
-              <button 
+              <button
                 onClick={() => {
                   setSelectedCategory('Все');
                   setSelectedSubcategory('Все');
@@ -315,14 +345,14 @@ function Menu() {
             <>
               <div className="products-grid-new">
                 {filteredProducts.map(product => (
-                  <div 
-                    key={product.id} 
+                  <div
+                    key={product.id}
                     className="product-card-new"
                     onClick={() => handleProductClick(product)}
                   >
                     <div className="product-image-new">
-                      <img 
-                        src={product.image} 
+                      <img
+                        src={product.image}
                         alt={product.name}
                         loading="lazy"
                       />
@@ -335,7 +365,7 @@ function Menu() {
                         </span>
                       )}
                     </div>
-                    
+
                     <div className="product-info-new">
                       <div className="product-header-new">
                         <h3 className="product-name-new">{product.name}</h3>
@@ -343,18 +373,18 @@ function Menu() {
                           {formatPriceRange(product)}
                         </p>
                       </div>
-                      
+
                       <p className="product-description-new">
                         {product.description || 'Вкусный напиток'}
                       </p>
-                      
+
                       <div className="product-tags-compact">
                         <span className="category-tag-compact">{product.category}</span>
                         {product.subcategory && product.subcategory !== 'Все' && (
                           <span className="subcategory-tag-compact">{product.subcategory}</span>
                         )}
                       </div>
-                      
+
                       <div className="product-buttons-compact">
                         <button
                           onClick={(e) => handleQuickAdd(product, e)}
@@ -377,7 +407,7 @@ function Menu() {
                   </div>
                 ))}
               </div>
-              
+
               {/* Статистика внизу */}
               <div className="menu-stats">
                 <p>Всего в меню: {products.length} товаров</p>
@@ -387,12 +417,16 @@ function Menu() {
         </div>
       </div>
 
-      {/* Модальное окно для кастомизации */}
+      {/* НОВОЕ МОДАЛЬНОЕ ОКНО - ЗАМЕНА */}
       {selectedProduct && (
-        <ProductModal
-          product={selectedProduct}
+        <ProductModalNew
           isOpen={isModalOpen}
+          product={{
+            ...selectedProduct,
+            basePrice: extractBasePrice(selectedProduct)
+          }}
           onClose={handleCloseModal}
+          onAddToCart={handleAddToCart}
         />
       )}
     </>

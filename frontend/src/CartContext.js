@@ -1,125 +1,143 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
-import { cartUtils } from './utils';
+import React, { createContext, useState, useEffect, useCallback } from 'react';
 
-const CartContext = createContext();
-
-export const useCart = () => {
-  const context = useContext(CartContext);
-  if (!context) {
-    throw new Error('useCart must be used within CartProvider');
-  }
-  return context;
-};
+export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  const [cart, setCart] = useState([]);
-  const [notification, setNotification] = useState(null);
+    const [cartItems, setCartItems] = useState([]);
 
-  // Загрузка корзины из localStorage при монтировании
-  useEffect(() => {
-    const savedCart = cartUtils.getCart();
-    setCart(savedCart);
-  }, []);
+    // Загружаем корзину из localStorage при инициализации
+    useEffect(() => {
+        const savedCart = localStorage.getItem('metodikaCoffeeCart');
+        if (savedCart) {
+            try {
+                const parsedCart = JSON.parse(savedCart);
+                // Убеждаемся, что у всех элементов есть цена
+                const validatedCart = parsedCart.map(item => ({
+                    ...item,
+                    finalPrice: item.finalPrice ? Number(item.finalPrice) : (item.price ? Number(item.price) : 0),
+                    quantity: item.quantity ? Number(item.quantity) : 1
+                }));
+                setCartItems(validatedCart);
+            } catch (error) {
+                console.error('Ошибка загрузки корзины:', error);
+                localStorage.removeItem('metodikaCoffeeCart');
+            }
+        }
+    }, []);
 
-  // Сохранение корзины в localStorage при изменении
-  useEffect(() => {
-    if (cart.length > 0) {
-      cartUtils.saveCart(cart);
-    } else {
-      cartUtils.clearCart();
-    }
-  }, [cart]);
+    // Сохраняем корзину в localStorage при изменении
+    useEffect(() => {
+        if (cartItems.length > 0) {
+            localStorage.setItem('metodikaCoffeeCart', JSON.stringify(cartItems));
+        } else {
+            localStorage.removeItem('metodikaCoffeeCart');
+        }
+    }, [cartItems]);
 
-  const addToCart = (product, quantity = 1) => {
-    setCart(prevCart => {
-      const existingIndex = prevCart.findIndex(item => 
-        item.id === product.id && 
-        item.size === product.size && 
-        JSON.stringify(item.addons) === JSON.stringify(product.addons)
-      );
-      
-      let newCart;
-      
-      if (existingIndex >= 0) {
-        newCart = [...prevCart];
-        newCart[existingIndex].quantity += quantity;
-      } else {
-        newCart = [...prevCart, { ...product, quantity }];
-      }
-      
-      // Показываем уведомление
-      setNotification({
-        message: `${product.name} добавлен в корзину`,
-        type: 'success'
-      });
-      
-      // Автоматически скрываем уведомление через 3 секунды
-      setTimeout(() => setNotification(null), 3000);
-      
-      return newCart;
-    });
-  };
+    // Генерация уникального ID для элемента корзины
+    const generateCartItemId = (product, selectedSize, selectedAdditives) => {
+        const sizePart = selectedSize || 'M';
+        const additivesPart = selectedAdditives && selectedAdditives.length > 0 
+            ? selectedAdditives.sort().join('-')
+            : 'no-additives';
+        return `${product.id}-${sizePart}-${additivesPart}`;
+    };
 
-  const removeFromCart = (productId) => {
-    setCart(prevCart => {
-      const newCart = prevCart.filter(item => item.id !== productId);
-      
-      setNotification({
-        message: 'Товар удален из корзины',
-        type: 'info'
-      });
-      setTimeout(() => setNotification(null), 3000);
-      
-      return newCart;
-    });
-  };
+    const addToCart = (product) => {
+        setCartItems(prevItems => {
+            const cartItemId = generateCartItemId(
+                product, 
+                product.selectedSize, 
+                product.selectedAdditives
+            );
+            
+            const existingItem = prevItems.find(item => 
+                generateCartItemId(item, item.selectedSize, item.selectedAdditives) === cartItemId
+            );
+            
+            if (existingItem) {
+                return prevItems.map(item =>
+                    generateCartItemId(item, item.selectedSize, item.selectedAdditives) === cartItemId
+                        ? { 
+                            ...item, 
+                            quantity: (item.quantity || 1) + (product.quantity || 1),
+                            finalPrice: product.finalPrice ? Number(product.finalPrice) : (item.finalPrice || 0)
+                        }
+                        : item
+                );
+            } else {
+                const newItem = {
+                    ...product,
+                    id: product.id,
+                    name: product.name,
+                    price: product.price ? Number(product.price) : 0,
+                    finalPrice: product.finalPrice ? Number(product.finalPrice) : (product.price ? Number(product.price) : 0),
+                    quantity: product.quantity ? Number(product.quantity) : 1,
+                    selectedSize: product.selectedSize || 'M',
+                    selectedAdditives: product.selectedAdditives || [],
+                    additivesDetails: product.additivesDetails || []
+                };
+                return [...prevItems, newItem];
+            }
+        });
+    };
 
-  const updateQuantity = (productId, quantity) => {
-    if (quantity < 1) {
-      removeFromCart(productId);
-      return;
-    }
-    
-    setCart(prevCart => 
-      prevCart.map(item => 
-        item.id === productId ? { ...item, quantity } : item
-      )
+    const removeFromCart = (itemId) => {
+        setCartItems(prevItems => {
+            const itemToRemove = prevItems.find(item => 
+                generateCartItemId(item, item.selectedSize, item.selectedAdditives) === itemId
+            );
+            
+            if (itemToRemove && itemToRemove.quantity > 1) {
+                return prevItems.map(item =>
+                    generateCartItemId(item, item.selectedSize, item.selectedAdditives) === itemId
+                        ? { ...item, quantity: item.quantity - 1 }
+                        : item
+                );
+            } else {
+                return prevItems.filter(item => 
+                    generateCartItemId(item, item.selectedSize, item.selectedAdditives) !== itemId
+                );
+            }
+        });
+    };
+
+    const clearCart = () => {
+        setCartItems([]);
+        localStorage.removeItem('metodikaCoffeeCart');
+    };
+
+    // Используем useCallback для мемоизации функции
+    const getTotalPrice = useCallback(() => {
+        if (!cartItems || cartItems.length === 0) return 0;
+        
+        let total = 0;
+        cartItems.forEach(item => {
+            const itemPrice = item.finalPrice ? Number(item.finalPrice) : (item.price ? Number(item.price) : 0);
+            const itemQuantity = item.quantity ? Number(item.quantity) : 1;
+            
+            if (!isNaN(itemPrice) && !isNaN(itemQuantity)) {
+                total += itemPrice * itemQuantity;
+            }
+        });
+        
+        return total;
+    }, [cartItems]);
+
+    const getItemCount = () => {
+        return cartItems.reduce((count, item) => count + (item.quantity || 1), 0);
+    };
+
+    return (
+        <CartContext.Provider value={{
+            cartItems,
+            addToCart,
+            removeFromCart,
+            clearCart,
+            getTotalPrice,
+            getItemCount
+        }}>
+            {children}
+        </CartContext.Provider>
     );
-  };
-
-  const clearCart = () => {
-    setCart([]);
-    cartUtils.clearCart();
-    
-    setNotification({
-      message: 'Корзина очищена',
-      type: 'info'
-    });
-    setTimeout(() => setNotification(null), 3000);
-  };
-
-  const getCartTotal = () => {
-    return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
-  };
-
-  const getCartCount = () => {
-    return cart.reduce((count, item) => count + item.quantity, 0);
-  };
-
-  const value = {
-    cart,
-    addToCart,
-    removeFromCart,
-    updateQuantity,
-    clearCart,
-    getCartTotal,
-    getCartCount,
-    notification
-  };
-
-  return (
-    <CartContext.Provider value={value}>
-      {children}
-    </CartContext.Provider>
-  );
 };

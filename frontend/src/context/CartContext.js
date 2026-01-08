@@ -1,95 +1,115 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 
-const CartContext = createContext();
+// Создаем контекст и экспортируем его
+export const CartContext = createContext();
 
-const getInitialCart = () => {
-  try {
-    const savedCart = localStorage.getItem('metodikaCoffeeCart');
-    return savedCart ? JSON.parse(savedCart) : [];
-  } catch (error) {
-    console.error('Ошибка при загрузке корзины:', error);
-    return [];
+// Хук для использования контекста
+export const useCart = () => {
+  const context = useContext(CartContext);
+  if (!context) {
+    throw new Error('useCart must be used within CartProvider');
   }
+  return context;
 };
 
+// Провайдер контекста
 export const CartProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useState(getInitialCart);
+  const [cartItems, setCartItems] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
-  // Сохраняем корзину в localStorage
+  // Загрузка корзины из localStorage при монтировании
   useEffect(() => {
-    localStorage.setItem('metodikaCoffeeCart', JSON.stringify(cartItems));
+    const savedCart = localStorage.getItem('metodikaCart');
+    if (savedCart) {
+      try {
+        const parsedCart = JSON.parse(savedCart);
+        if (Array.isArray(parsedCart)) {
+          setCartItems(parsedCart);
+        }
+      } catch (error) {
+        console.error('Ошибка загрузки корзины:', error);
+      }
+    }
+  }, []);
+
+  // Сохранение корзины в localStorage при изменении
+  useEffect(() => {
+    if (cartItems.length > 0) {
+      localStorage.setItem('metodikaCart', JSON.stringify(cartItems));
+    } else {
+      localStorage.removeItem('metodikaCart');
+    }
   }, [cartItems]);
 
-  // Добавить товар в корзину (с поддержкой кастомизации)
-  const addToCart = (product) => {
+  // Добавление товара в корзину
+  const addToCart = (product, quantity = 1) => {
     setCartItems(prevItems => {
-      // Для кастомизированных товаров используем уникальный ID
-      if (product.customizations) {
-        return [...prevItems, product];
-      }
-      
-      // Для обычных товаров проверяем, есть ли уже в корзине
-      const existingItem = prevItems.find(item => 
-        item.id === product.id && !item.customizations
+      const existingIndex = prevItems.findIndex(item =>
+        item.id === product.id &&
+        item.size === product.size &&
+        JSON.stringify(item.addons) === JSON.stringify(product.addons)
       );
-      
-      if (existingItem) {
-        return prevItems.map(item =>
-          item.id === product.id && !item.customizations
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
+
+      if (existingIndex >= 0) {
+        const newItems = [...prevItems];
+        newItems[existingIndex].quantity = (newItems[existingIndex].quantity || 1) + quantity;
+        return newItems;
       } else {
-        return [...prevItems, { ...product, quantity: 1 }];
+        return [...prevItems, { ...product, quantity }];
       }
     });
   };
 
-  // Удалить товар из корзины
-  const removeFromCart = (productId) => {
-    setCartItems(prevItems => prevItems.filter(item => item.id !== productId));
+  // Удаление товара из корзины
+  const removeFromCart = (product) => {
+    setCartItems(prevItems =>
+      prevItems.filter(item => !(
+        item.id === product.id &&
+        item.size === product.size &&
+        JSON.stringify(item.addons) === JSON.stringify(product.addons)
+      ))
+    );
   };
 
-  // Изменить количество товара
-  const updateQuantity = (productId, quantity) => {
-    if (quantity < 1) {
-      removeFromCart(productId);
+  // Обновление количества товара
+  const updateQuantity = (product, newQuantity) => {
+    if (newQuantity < 1) {
+      removeFromCart(product);
       return;
     }
-    
+
     setCartItems(prevItems =>
       prevItems.map(item =>
-        item.id === productId ? { ...item, quantity } : item
+        item.id === product.id &&
+        item.size === product.size &&
+        JSON.stringify(item.addons) === JSON.stringify(product.addons)
+          ? { ...item, quantity: newQuantity }
+          : item
       )
     );
   };
 
-  // Очистить корзину
+  // Очистка корзины
   const clearCart = () => {
     setCartItems([]);
+    localStorage.removeItem('metodikaCart');
   };
 
-  // Рассчитать общую сумму
-  const getTotalPrice = () => {
-    return cartItems.reduce((total, item) => {
-      if (item.totalPrice) {
-        return total + item.totalPrice;
-      }
-      return total + (item.price * (item.quantity || 1));
-    }, 0);
-  };
-
-  // Получить общее количество товаров
-  const getTotalItems = () => {
-    return cartItems.reduce((total, item) => {
-      return total + (item.quantity || 1);
-    }, 0);
-  };
-
-  // Открыть/закрыть корзину
+  // Переключение видимости корзины
   const toggleCart = () => {
     setIsCartOpen(!isCartOpen);
+  };
+
+  // Расчет общей суммы
+  const getTotalPrice = () => {
+    return cartItems.reduce((total, item) => {
+      return total + (item.price || 0) * (item.quantity || 1);
+    }, 0);
+  };
+
+  // Расчет общего количества товаров
+  const getTotalItems = () => {
+    return cartItems.reduce((total, item) => total + (item.quantity || 1), 0);
   };
 
   const value = {
@@ -101,17 +121,12 @@ export const CartProvider = ({ children }) => {
     getTotalPrice,
     getTotalItems,
     isCartOpen,
-    setIsCartOpen,
     toggleCart
   };
 
-  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
-};
-
-export const useCart = () => {
-  const context = useContext(CartContext);
-  if (!context) {
-    throw new Error('useCart должен использоваться внутри CartProvider');
-  }
-  return context;
+  return (
+    <CartContext.Provider value={value}>
+      {children}
+    </CartContext.Provider>
+  );
 };

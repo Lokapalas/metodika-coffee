@@ -1,8 +1,8 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { CartContext } from './CartContext';
-import './Checkout.css';
+import './CheckoutForm.css';
 
-const Checkout = () => {
+const CheckoutForm = () => {
     const { cartItems, clearCart, getTotalPrice } = useContext(CartContext);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [orderStatus, setOrderStatus] = useState(null);
@@ -14,37 +14,6 @@ const Checkout = () => {
         paymentMethod: 'cash',
         comments: ''
     });
-
-    // Инициализация Telegram WebApp
-    useEffect(() => {
-        if (window.Telegram?.WebApp) {
-            const tg = window.Telegram.WebApp;
-            
-            // Расширяем окно на всю высоту
-            tg.expand();
-            
-            // Показываем основную кнопку
-            tg.MainButton.setParams({
-                text: `ОФОРМИТЬ ЗАКАЗ ЗА ${getTotalPrice()}₽`,
-                color: '#4CAF50',
-                textColor: '#ffffff'
-            });
-            
-            // Обработчик нажатия на основную кнопку
-            tg.MainButton.onClick(handleTelegramSubmit);
-            
-            // Показываем кнопку если есть товары в корзине
-            if (cartItems.length > 0) {
-                tg.MainButton.show();
-            } else {
-                tg.MainButton.hide();
-            }
-            
-            return () => {
-                tg.MainButton.offClick(handleTelegramSubmit);
-            };
-        }
-    }, [cartItems, getTotalPrice]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -87,38 +56,15 @@ const Checkout = () => {
         return true;
     };
 
-    // Функция для нормализации цены (исправляем NaN)
-    const normalizePrice = (price) => {
-        if (isNaN(price) || price === null || price === undefined) {
-            return 0;
-        }
-        return Number(price);
-    };
-
-    // Пересчитываем общую сумму с проверкой
-    const calculateTotalPrice = () => {
-        if (!cartItems || cartItems.length === 0) return 0;
-        
-        let total = 0;
-        cartItems.forEach(item => {
-            const itemPrice = normalizePrice(item.finalPrice || item.price || 0);
-            const itemQuantity = normalizePrice(item.quantity || 1);
-            total += itemPrice * itemQuantity;
-        });
-        
-        return total;
-    };
-
     const handleSubmit = async (e) => {
-        if (e) e.preventDefault();
+        e.preventDefault();
         
         if (!validateForm()) return;
         
         setIsSubmitting(true);
         setOrderStatus(null);
 
-        // Формируем детали заказа
-        const orderDetails = {
+        const orderPayload = {
             customer: {
                 name: formData.name.trim(),
                 phone: formData.phone.trim(),
@@ -127,16 +73,12 @@ const Checkout = () => {
             items: cartItems.map(item => ({
                 id: item.id,
                 name: item.name,
-                price: normalizePrice(item.finalPrice || item.price || 0),
-                quantity: normalizePrice(item.quantity || 1),
-                size: item.selectedSize || 'M',
-                additives: item.selectedAdditives || [],
-                additivesDetails: item.additivesDetails || []
+                price: item.price,
+                quantity: item.quantity
             })),
-            total: calculateTotalPrice(),
+            total: getTotalPrice(),
             paymentMethod: formData.paymentMethod,
-            comments: formData.comments.trim(),
-            source: window.Telegram?.WebApp ? 'telegram' : 'website'
+            comments: formData.comments.trim()
         };
 
         try {
@@ -145,7 +87,7 @@ const Checkout = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(orderDetails)
+                body: JSON.stringify(orderPayload)
             });
 
             const result = await response.json();
@@ -160,12 +102,12 @@ const Checkout = () => {
                 // Очищаем корзину после успешного заказа
                 clearCart();
                 
-                // Если в Telegram, закрываем приложение
-                if (window.Telegram?.WebApp) {
-                    setTimeout(() => {
+                // Показываем кнопку для нового заказа
+                setTimeout(() => {
+                    if (window.Telegram?.WebApp) {
                         window.Telegram.WebApp.close();
-                    }, 3000);
-                }
+                    }
+                }, 3000);
             } else {
                 setOrderStatus({
                     type: 'error',
@@ -183,16 +125,6 @@ const Checkout = () => {
         }
     };
 
-    // Обработчик для Telegram кнопки
-    const handleTelegramSubmit = () => {
-        if (validateForm()) {
-            handleSubmit();
-        }
-    };
-
-    // Подсчитываем итоговую сумму
-    const totalPrice = calculateTotalPrice();
-
     if (orderStatus?.type === 'success') {
         return (
             <div className="checkout-success">
@@ -205,7 +137,6 @@ const Checkout = () => {
                     <p><strong>Телефон:</strong> {formData.phone}</p>
                     <p><strong>Адрес:</strong> {formData.address}</p>
                     <p><strong>Способ оплаты:</strong> {formData.paymentMethod === 'card' ? 'Карта' : 'Наличные'}</p>
-                    <p><strong>Итоговая сумма:</strong> {totalPrice}₽</p>
                 </div>
                 <button 
                     className="new-order-btn"
@@ -223,41 +154,16 @@ const Checkout = () => {
             
             <div className="order-summary">
                 <h3>Ваш заказ:</h3>
-                {cartItems.length === 0 ? (
-                    <p className="empty-order">Корзина пуста</p>
-                ) : (
-                    <>
-                        {cartItems.map((item, index) => {
-                            const itemPrice = normalizePrice(item.finalPrice || item.price || 0);
-                            const itemQuantity = normalizePrice(item.quantity || 1);
-                            const itemTotal = itemPrice * itemQuantity;
-                            
-                            return (
-                                <div key={index} className="order-item">
-                                    <div className="order-item-main">
-                                        <span className="order-item-name">{item.name}</span>
-                                        {item.selectedSize && item.selectedSize !== 'M' && (
-                                            <span className="order-item-size">({item.selectedSize})</span>
-                                        )}
-                                    </div>
-                                    <div className="order-item-details">
-                                        <span className="order-item-quantity">x{itemQuantity}</span>
-                                        <span className="order-item-total">{itemTotal}₽</span>
-                                    </div>
-                                    {item.selectedAdditives && item.selectedAdditives.length > 0 && (
-                                        <div className="order-item-additives">
-                                            <small>Добавки: {item.selectedAdditives.length}</small>
-                                        </div>
-                                    )}
-                                </div>
-                            );
-                        })}
-                        <div className="order-total">
-                            <strong>Итого:</strong>
-                            <strong>{totalPrice}₽</strong>
-                        </div>
-                    </>
-                )}
+                {cartItems.map(item => (
+                    <div key={item.id} className="order-item">
+                        <span>{item.name} x{item.quantity}</span>
+                        <span>{item.price * item.quantity}₽</span>
+                    </div>
+                ))}
+                <div className="order-total">
+                    <strong>Итого:</strong>
+                    <strong>{getTotalPrice()}₽</strong>
+                </div>
             </div>
 
             <form onSubmit={handleSubmit} className="checkout-form">
@@ -347,17 +253,11 @@ const Checkout = () => {
                     className="submit-order-btn"
                     disabled={isSubmitting || cartItems.length === 0}
                 >
-                    {isSubmitting ? 'Отправляем заказ...' : `Оформить заказ за ${totalPrice}₽`}
+                    {isSubmitting ? 'Отправляем заказ...' : `Оформить заказ за ${getTotalPrice()}₽`}
                 </button>
-
-                {window.Telegram?.WebApp && (
-                    <div className="telegram-note">
-                        <small>Или используйте кнопку внизу Telegram приложения</small>
-                    </div>
-                )}
             </form>
         </div>
     );
 };
 
-export default Checkout;
+export default CheckoutForm;

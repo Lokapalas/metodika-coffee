@@ -1,9 +1,8 @@
-// Конфигурация API
+// Конфигурация API для продакшена
 const API_CONFIG = {
-    // Для продакшена - относительный путь через nginx
-    API_URL: '/api',
-    // Для разработки - localhost:3001
-    // API_URL: 'http://localhost:3001/api',
+    API_URL: '/api',  // Относительный путь через nginx прокси
+    TIMEOUT: 30000,
+    MODE: 'production'
 };
 
 export default API_CONFIG;
