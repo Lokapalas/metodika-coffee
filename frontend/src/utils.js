@@ -1,9 +1,9 @@
-// Безопасные утилиты для работы с localStorage
+// Р‘РµР·РѕРїР°СЃРЅС‹Рµ СѓС‚РёР»РёС‚С‹ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ localStorage
 
 /**
- * Безопасное получение данных из localStorage
- * @param {string} key - Ключ
- * @param {any} defaultValue - Значение по умолчанию
+ * Р‘РµР·РѕРїР°СЃРЅРѕРµ РїРѕР»СѓС‡РµРЅРёРµ РґР°РЅРЅС‹С… РёР· localStorage
+ * @param {string} key - РљР»СЋС‡
+ * @param {any} defaultValue - Р—РЅР°С‡РµРЅРёРµ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
  * @returns {any}
  */
 export const safeGetLocalStorage = (key, defaultValue = null) => {
@@ -13,41 +13,41 @@ export const safeGetLocalStorage = (key, defaultValue = null) => {
     
     return JSON.parse(item);
   } catch (error) {
-    console.error(`Ошибка чтения из localStorage (${key}):`, error);
+    console.error(`РћС€РёР±РєР° С‡С‚РµРЅРёСЏ РёР· localStorage (${key}):`, error);
     return defaultValue;
   }
 };
 
 /**
- * Безопасное сохранение в localStorage
- * @param {string} key - Ключ
- * @param {any} value - Значение
- * @returns {boolean} - Успешно ли сохранено
+ * Р‘РµР·РѕРїР°СЃРЅРѕРµ СЃРѕС…СЂР°РЅРµРЅРёРµ РІ localStorage
+ * @param {string} key - РљР»СЋС‡
+ * @param {any} value - Р—РЅР°С‡РµРЅРёРµ
+ * @returns {boolean} - РЈСЃРїРµС€РЅРѕ Р»Рё СЃРѕС…СЂР°РЅРµРЅРѕ
  */
 export const safeSetLocalStorage = (key, value) => {
   try {
     localStorage.setItem(key, JSON.stringify(value));
     return true;
   } catch (error) {
-    console.error(`Ошибка сохранения в localStorage (${key}):`, error);
+    console.error(`РћС€РёР±РєР° СЃРѕС…СЂР°РЅРµРЅРёСЏ РІ localStorage (${key}):`, error);
     return false;
   }
 };
 
 /**
- * Безопасное удаление из localStorage
- * @param {string} key - Ключ
+ * Р‘РµР·РѕРїР°СЃРЅРѕРµ СѓРґР°Р»РµРЅРёРµ РёР· localStorage
+ * @param {string} key - РљР»СЋС‡
  */
 export const safeRemoveLocalStorage = (key) => {
   try {
     localStorage.removeItem(key);
   } catch (error) {
-    console.error(`Ошибка удаления из localStorage (${key}):`, error);
+    console.error(`РћС€РёР±РєР° СѓРґР°Р»РµРЅРёСЏ РёР· localStorage (${key}):`, error);
   }
 };
 
 /**
- * Утилита для работы с корзиной
+ * РЈС‚РёР»РёС‚Р° РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ РєРѕСЂР·РёРЅРѕР№
  */
 export const cartUtils = {
   getCart: () => safeGetLocalStorage('cart', []),
@@ -91,7 +91,7 @@ export const cartUtils = {
 };
 
 /**
- * Утилита для уведомлений
+ * РЈС‚РёР»РёС‚Р° РґР»СЏ СѓРІРµРґРѕРјР»РµРЅРёР№
  */
 export const showNotification = (message, type = 'success') => {
   console.log(`[${type.toUpperCase()}] ${message}`);

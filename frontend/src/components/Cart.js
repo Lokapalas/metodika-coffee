@@ -17,22 +17,22 @@ function Cart() {
   
   const navigate = useNavigate();
 
-  // Форматирование цены
+  // Р¤РѕСЂРјР°С‚РёСЂРѕРІР°РЅРёРµ С†РµРЅС‹
   const formatPrice = (price) => {
     return new Intl.NumberFormat('ru-RU').format(price);
   };
 
-  // Обработчик оформления заказа - теперь ведет на страницу Checkout
+  // РћР±СЂР°Р±РѕС‚С‡РёРє РѕС„РѕСЂРјР»РµРЅРёСЏ Р·Р°РєР°Р·Р° - С‚РµРїРµСЂСЊ РІРµРґРµС‚ РЅР° СЃС‚СЂР°РЅРёС†Сѓ Checkout
   const handleCheckout = () => {
     if (cartItems.length === 0) {
-      alert('Корзина пуста! Добавьте товары перед оформлением заказа.');
+      alert('РљРѕСЂР·РёРЅР° РїСѓСЃС‚Р°! Р”РѕР±Р°РІСЊС‚Рµ С‚РѕРІР°СЂС‹ РїРµСЂРµРґ РѕС„РѕСЂРјР»РµРЅРёРµРј Р·Р°РєР°Р·Р°.');
       return;
     }
-    // Переходим на страницу оформления заказа
+    // РџРµСЂРµС…РѕРґРёРј РЅР° СЃС‚СЂР°РЅРёС†Сѓ РѕС„РѕСЂРјР»РµРЅРёСЏ Р·Р°РєР°Р·Р°
     navigate('/checkout');
   };
 
-  // Закрытие корзины
+  // Р—Р°РєСЂС‹С‚РёРµ РєРѕСЂР·РёРЅС‹
   const handleCloseCart = () => {
     toggleCart();
   };
@@ -45,12 +45,12 @@ function Cart() {
     return (
       <div className="cart-sidebar">
         <div className="cart-header">
-          <h2>🛒 Корзина</h2>
-          <button className="close-cart" onClick={handleCloseCart}>×</button>
+          <h2>рџ›’ РљРѕСЂР·РёРЅР°</h2>
+          <button className="close-cart" onClick={handleCloseCart}>Г—</button>
         </div>
         <div className="cart-empty">
-          <p>Корзина пуста</p>
-          <p>Добавьте товары из меню</p>
+          <p>РљРѕСЂР·РёРЅР° РїСѓСЃС‚Р°</p>
+          <p>Р”РѕР±Р°РІСЊС‚Рµ С‚РѕРІР°СЂС‹ РёР· РјРµРЅСЋ</p>
         </div>
       </div>
     );
@@ -59,8 +59,8 @@ function Cart() {
   return (
     <div className="cart-sidebar">
       <div className="cart-header">
-        <h2>🛒 Корзина</h2>
-        <button className="close-cart" onClick={handleCloseCart}>×</button>
+        <h2>рџ›’ РљРѕСЂР·РёРЅР°</h2>
+        <button className="close-cart" onClick={handleCloseCart}>Г—</button>
       </div>
 
       <div className="cart-items">
@@ -68,11 +68,11 @@ function Cart() {
           <div key={index} className="cart-item">
             <div className="cart-item-info">
               <h4>{item.name}</h4>
-              {item.size && <p>Размер: {item.size}</p>}
+              {item.size && <p>Р Р°Р·РјРµСЂ: {item.size}</p>}
               {item.addons && item.addons.length > 0 && (
-                <p>Добавки: {item.addons.map(a => a.name).join(', ')}</p>
+                <p>Р”РѕР±Р°РІРєРё: {item.addons.map(a => a.name).join(', ')}</p>
               )}
-              <p className="item-price">{formatPrice(item.price)} ₽</p>
+              <p className="item-price">{formatPrice(item.price)} в‚Ѕ</p>
             </div>
             
             <div className="cart-item-controls">
@@ -81,7 +81,7 @@ function Cart() {
                   onClick={() => updateQuantity(item, (item.quantity || 1) - 1)}
                   disabled={(item.quantity || 1) <= 1}
                 >
-                  −
+                  в€’
                 </button>
                 <span>{item.quantity || 1}</span>
                 <button onClick={() => updateQuantity(item, (item.quantity || 1) + 1)}>
@@ -90,14 +90,14 @@ function Cart() {
               </div>
               
               <div className="item-total">
-                {formatPrice(item.price * (item.quantity || 1))} ₽
+                {formatPrice(item.price * (item.quantity || 1))} в‚Ѕ
               </div>
               
               <button 
                 className="remove-item"
                 onClick={() => removeFromCart(item)}
               >
-                ×
+                Г—
               </button>
             </div>
           </div>
@@ -106,28 +106,4 @@ function Cart() {
 
       <div className="cart-footer">
         <div className="cart-total">
-          <span>Итого:</span>
-          <span className="total-price">{formatPrice(getTotalPrice())} ₽</span>
-        </div>
-        
-        <div className="cart-actions">
-          <button 
-            className="checkout-btn"
-            onClick={handleCheckout}
-          >
-            Оформить заказ • {formatPrice(getTotalPrice())} ₽
-          </button>
-          
-          <button 
-            className="clear-cart-btn"
-            onClick={clearCart}
-          >
-            Очистить корзину
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export default Cart;
+          <span>Р

@@ -7,7 +7,7 @@ import './ProductGrid.css';
 import NavBar from './components/NavBar';
 import SideBar from './components/SideBar';
 
-// Безопасный парсинг JSON
+// Р‘РµР·РѕРїР°СЃРЅС‹Р№ РїР°СЂСЃРёРЅРі JSON
 const safeParseJSON = (str, defaultValue) => {
   try {
     return str ? JSON.parse(str) : defaultValue;
@@ -29,7 +29,7 @@ const Menu = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartTotal, setCartTotal] = useState(0);
 
-  // Загрузка продуктов и категорий
+  // Р—Р°РіСЂСѓР·РєР° РїСЂРѕРґСѓРєС‚РѕРІ Рё РєР°С‚РµРіРѕСЂРёР№
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -45,18 +45,18 @@ const Menu = () => {
         setFilteredProducts(productsData);
         setCategories(categoriesData);
 
-        // БЕЗОПАСНАЯ загрузка корзины из localStorage
+        // Р‘Р•Р—РћРџРђРЎРќРђРЇ Р·Р°РіСЂСѓР·РєР° РєРѕСЂР·РёРЅС‹ РёР· localStorage
         const savedCart = safeParseJSON(localStorage.getItem('metodikaCart'), []);
         setCart(Array.isArray(savedCart) ? savedCart : []);
       } catch (error) {
-        console.error('Ошибка загрузки данных:', error);
+        console.error('РћС€РёР±РєР° Р·Р°РіСЂСѓР·РєРё РґР°РЅРЅС‹С…:', error);
       }
     };
     fetchData();
   }, []);
 
-  // Остальной код компонента...
-  // Нужно скопировать из оригинала
+  // РћСЃС‚Р°Р»СЊРЅРѕР№ РєРѕРґ РєРѕРјРїРѕРЅРµРЅС‚Р°...
+  // РќСѓР¶РЅРѕ СЃРєРѕРїРёСЂРѕРІР°С‚СЊ РёР· РѕСЂРёРіРёРЅР°Р»Р°
 
   return (
     <div className="menu-container">
@@ -64,7 +64,7 @@ const Menu = () => {
       <div className="main-content">
         <SideBar />
         <div className="products-section">
-          {/* Сюда будет вставлен оригинальный JSX */}
+          {/* РЎСЋРґР° Р±СѓРґРµС‚ РІСЃС‚Р°РІР»РµРЅ РѕСЂРёРіРёРЅР°Р»СЊРЅС‹Р№ JSX */}
         </div>
       </div>
     </div>

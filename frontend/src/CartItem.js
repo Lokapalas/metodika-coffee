@@ -20,16 +20,16 @@ const CartItem = ({ item, onRemove, onUpdate }) => {
         <h4>{item.name}</h4>
         
         {item.size && (
-          <p className="cart-item-size">Размер: {item.size}</p>
+          <p className="cart-item-size">Р Р°Р·РјРµСЂ: {item.size}</p>
         )}
         
         {item.addons && item.addons.length > 0 && (
           <div className="cart-item-addons">
-            <p className="addons-label">Добавки:</p>
+            <p className="addons-label">Р”РѕР±Р°РІРєРё:</p>
             <ul className="addons-list">
               {item.addons.map((addon, index) => (
                 <li key={index} className="addon-item">
-                  {addon.name} (+{addon.price} ₽)
+                  {addon.name} (+{addon.price} в‚Ѕ)
                 </li>
               ))}
             </ul>
@@ -37,7 +37,7 @@ const CartItem = ({ item, onRemove, onUpdate }) => {
         )}
         
         <p className="cart-item-price">
-          {item.price} ₽ × {item.quantity} = {item.price * item.quantity} ₽
+          {item.price} в‚Ѕ Г— {item.quantity} = {item.price * item.quantity} в‚Ѕ
         </p>
       </div>
       
@@ -46,9 +46,9 @@ const CartItem = ({ item, onRemove, onUpdate }) => {
           <button
             onClick={handleDecrease}
             className="quantity-btn decrease"
-            aria-label="Уменьшить количество"
+            aria-label="РЈРјРµРЅСЊС€РёС‚СЊ РєРѕР»РёС‡РµСЃС‚РІРѕ"
           >
-            −
+            в€’
           </button>
           
           <span className="quantity-display">{item.quantity}</span>
@@ -56,7 +56,7 @@ const CartItem = ({ item, onRemove, onUpdate }) => {
           <button
             onClick={handleIncrease}
             className="quantity-btn increase"
-            aria-label="Увеличить количество"
+            aria-label="РЈРІРµР»РёС‡РёС‚СЊ РєРѕР»РёС‡РµСЃС‚РІРѕ"
           >
             +
           </button>
@@ -65,9 +65,9 @@ const CartItem = ({ item, onRemove, onUpdate }) => {
         <button
           onClick={onRemove}
           className="remove-item-btn"
-          aria-label="Удалить товар"
+          aria-label="РЈРґР°Р»РёС‚СЊ С‚РѕРІР°СЂ"
         >
-          🗑️
+          рџ—‘пёЏ
         </button>
       </div>
     </div>

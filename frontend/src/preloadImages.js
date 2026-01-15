@@ -1,14 +1,14 @@
-// Скрипт предзагрузки изображений
+// РЎРєСЂРёРїС‚ РїСЂРµРґР·Р°РіСЂСѓР·РєРё РёР·РѕР±СЂР°Р¶РµРЅРёР№
 export const preloadProductImages = (products) => {
   if (!products || !Array.isArray(products)) return;
   
   const imageUrls = new Set();
   
-  // Собираем все URL изображений
+  // РЎРѕР±РёСЂР°РµРј РІСЃРµ URL РёР·РѕР±СЂР°Р¶РµРЅРёР№
   products.forEach(product => {
     if (product.image) {
       imageUrls.add(product.image);
-      // Также добавляем альтернативные форматы
+      // РўР°РєР¶Рµ РґРѕР±Р°РІР»СЏРµРј Р°Р»СЊС‚РµСЂРЅР°С‚РёРІРЅС‹Рµ С„РѕСЂРјР°С‚С‹
       imageUrls.add(product.image.replace('.jpg', '.JPG'));
       imageUrls.add(product.image.replace('.JPG', '.jpg'));
       imageUrls.add(product.image.replace('.jpg', '.png'));
@@ -17,11 +17,11 @@ export const preloadProductImages = (products) => {
     }
   });
   
-  // Предзагружаем изображения
+  // РџСЂРµРґР·Р°РіСЂСѓР¶Р°РµРј РёР·РѕР±СЂР°Р¶РµРЅРёСЏ
   Array.from(imageUrls).forEach(url => {
     const img = new Image();
     img.src = url;
   });
   
-  console.log(`Предзагружено ${imageUrls.size} изображений`);
+  console.log(`РџСЂРµРґР·Р°РіСЂСѓР¶РµРЅРѕ ${imageUrls.size} РёР·РѕР±СЂР°Р¶РµРЅРёР№`);
 };

@@ -7,7 +7,7 @@ import './ProductGrid.css';
 import NavBar from './components/NavBar';
 import SideBar from './components/SideBar';
 
-// Безопасный парсинг JSON
+// Р‘РµР·РѕРїР°СЃРЅС‹Р№ РїР°СЂСЃРёРЅРі JSON
 const safeParseJSON = (str, defaultValue) => {
   try {
     return str ? JSON.parse(str) : defaultValue;
@@ -18,7 +18,7 @@ const safeParseJSON = (str, defaultValue) => {
 
 const Menu = () => {
   const [products, setProducts] = useState([]);
-  // ... весь остальной код компонента ...
+  // ... РІРµСЃСЊ РѕСЃС‚Р°Р»СЊРЅРѕР№ РєРѕРґ РєРѕРјРїРѕРЅРµРЅС‚Р° ...
 
   return (
     <div className="menu-container">
@@ -26,7 +26,7 @@ const Menu = () => {
       <div className="main-content">
         <SideBar />
         
-        {/* ВЕСЬ существующий JSX код меню остается здесь */}
+        {/* Р’Р•РЎР¬ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёР№ JSX РєРѕРґ РјРµРЅСЋ РѕСЃС‚Р°РµС‚СЃСЏ Р·РґРµСЃСЊ */}
         
       </div>
     </div>

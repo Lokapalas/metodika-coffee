@@ -9,19 +9,19 @@ function SideBar({ categories, selectedCategory, onCategorySelect, onSearch }) {
     affordable: false
   });
 
-  // Обработчик изменения поиска
+  // РћР±СЂР°Р±РѕС‚С‡РёРє РёР·РјРµРЅРµРЅРёСЏ РїРѕРёСЃРєР°
   const handleSearchChange = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
     onSearch(value);
   };
 
-  // Обработчик выбора категории
+  // РћР±СЂР°Р±РѕС‚С‡РёРє РІС‹Р±РѕСЂР° РєР°С‚РµРіРѕСЂРёРё
   const handleCategoryClick = (category) => {
     onCategorySelect(category);
   };
 
-  // Обработчик изменения фильтров
+  // РћР±СЂР°Р±РѕС‚С‡РёРє РёР·РјРµРЅРµРЅРёСЏ С„РёР»СЊС‚СЂРѕРІ
   const handleFilterChange = (filterName) => {
     setFilters(prev => ({
       ...prev,
@@ -29,7 +29,7 @@ function SideBar({ categories, selectedCategory, onCategorySelect, onSearch }) {
     }));
   };
 
-  // Сброс всех фильтров
+  // РЎР±СЂРѕСЃ РІСЃРµС… С„РёР»СЊС‚СЂРѕРІ
   const handleResetFilters = () => {
     setSearchTerm('');
     setFilters({
@@ -38,17 +38,17 @@ function SideBar({ categories, selectedCategory, onCategorySelect, onSearch }) {
       affordable: false
     });
     onSearch('');
-    onCategorySelect('Все');
+    onCategorySelect('Р’СЃРµ');
   };
 
   return (
     <aside className="sidebar">
-      <h2>Фильтры</h2>
+      <h2>Р¤РёР»СЊС‚СЂС‹</h2>
       
       <div className="search-container">
         <input
           type="text"
-          placeholder="Поиск товаров..."
+          placeholder="РџРѕРёСЃРє С‚РѕРІР°СЂРѕРІ..."
           className="search-input"
           value={searchTerm}
           onChange={handleSearchChange}
@@ -56,7 +56,7 @@ function SideBar({ categories, selectedCategory, onCategorySelect, onSearch }) {
       </div>
 
       <div className="categories-section">
-        <h3>Категории</h3>
+        <h3>РљР°С‚РµРіРѕСЂРёРё</h3>
         <ul className="category-list">
           {categories.map(category => (
             <li key={category} className="category-item">
@@ -66,7 +66,7 @@ function SideBar({ categories, selectedCategory, onCategorySelect, onSearch }) {
               >
                 {category}
                 <span className="category-count">
-                  {category === 'Все' ? categories.length - 1 : 'N'}
+                  {category === 'Р’СЃРµ' ? categories.length - 1 : 'N'}
                 </span>
               </button>
             </li>
@@ -75,7 +75,7 @@ function SideBar({ categories, selectedCategory, onCategorySelect, onSearch }) {
       </div>
 
       <div className="filters-section">
-        <h3>Дополнительные фильтры</h3>
+        <h3>Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ С„РёР»СЊС‚СЂС‹</h3>
         <div className="filter-option">
           <input
             type="checkbox"
@@ -85,7 +85,7 @@ function SideBar({ categories, selectedCategory, onCategorySelect, onSearch }) {
             onChange={() => handleFilterChange('inStock')}
           />
           <label htmlFor="inStock" className="filter-label">
-            Только в наличии
+            РўРѕР»СЊРєРѕ РІ РЅР°Р»РёС‡РёРё
           </label>
         </div>
         <div className="filter-option">
@@ -97,7 +97,7 @@ function SideBar({ categories, selectedCategory, onCategorySelect, onSearch }) {
             onChange={() => handleFilterChange('popular')}
           />
           <label htmlFor="popular" className="filter-label">
-            Популярные товары
+            РџРѕРїСѓР»СЏСЂРЅС‹Рµ С‚РѕРІР°СЂС‹
           </label>
         </div>
         <div className="filter-option">
@@ -109,7 +109,7 @@ function SideBar({ categories, selectedCategory, onCategorySelect, onSearch }) {
             onChange={() => handleFilterChange('affordable')}
           />
           <label htmlFor="affordable" className="filter-label">
-            До 200 рублей
+            Р”Рѕ 200 СЂСѓР±Р»РµР№
           </label>
         </div>
       </div>
@@ -118,7 +118,7 @@ function SideBar({ categories, selectedCategory, onCategorySelect, onSearch }) {
         className="reset-filters"
         onClick={handleResetFilters}
       >
-        Сбросить все фильтры
+        РЎР±СЂРѕСЃРёС‚СЊ РІСЃРµ С„РёР»СЊС‚СЂС‹
       </button>
     </aside>
   );

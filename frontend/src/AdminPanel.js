@@ -9,7 +9,7 @@ const AdminPanel = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
 
-  // Проверка аутентификации
+  // РџСЂРѕРІРµСЂРєР° Р°СѓС‚РµРЅС‚РёС„РёРєР°С†РёРё
   useEffect(() => {
     const savedKey = localStorage.getItem('admin_key');
     if (savedKey === 'metodika2024') {
@@ -24,7 +24,7 @@ const AdminPanel = () => {
       localStorage.setItem('admin_key', secretKey);
       fetchOrders();
     } else {
-      setError('Неверный ключ доступа');
+      setError('РќРµРІРµСЂРЅС‹Р№ РєР»СЋС‡ РґРѕСЃС‚СѓРїР°');
     }
   };
 
@@ -32,9 +32,9 @@ const AdminPanel = () => {
     try {
       setLoading(true);
       const response = await fetch('/api/admin/orders?secret_key=metodika2024');
-      if (!response.ok) throw new Error('Ошибка загрузки заказов');
+      if (!response.ok) throw new Error('РћС€РёР±РєР° Р·Р°РіСЂСѓР·РєРё Р·Р°РєР°Р·РѕРІ');
       const data = await response.json();
-      setOrders(data.sort((a, b) => b.id - a.id)); // Новые сверху
+      setOrders(data.sort((a, b) => b.id - a.id)); // РќРѕРІС‹Рµ СЃРІРµСЂС…Сѓ
       setError('');
     } catch (err) {
       setError(err.message);
@@ -45,13 +45,13 @@ const AdminPanel = () => {
 
   const updateOrderStatus = async (orderId, newStatus) => {
     try {
-      // В будущем можно добавить endpoint для обновления статуса
-      // Пока просто обновляем локально
+      // Р’ Р±СѓРґСѓС‰РµРј РјРѕР¶РЅРѕ РґРѕР±Р°РІРёС‚СЊ endpoint РґР»СЏ РѕР±РЅРѕРІР»РµРЅРёСЏ СЃС‚Р°С‚СѓСЃР°
+      // РџРѕРєР° РїСЂРѕСЃС‚Рѕ РѕР±РЅРѕРІР»СЏРµРј Р»РѕРєР°Р»СЊРЅРѕ
       setOrders(prev => prev.map(order => 
         order.id === orderId ? { ...order, status: newStatus } : order
       ));
       
-      // Здесь можно добавить API call для сохранения статуса
+      // Р—РґРµСЃСЊ РјРѕР¶РЅРѕ РґРѕР±Р°РІРёС‚СЊ API call РґР»СЏ СЃРѕС…СЂР°РЅРµРЅРёСЏ СЃС‚Р°С‚СѓСЃР°
       console.log(`Order ${orderId} status updated to ${newStatus}`);
     } catch (err) {
       console.error('Error updating order:', err);
@@ -76,11 +76,11 @@ const AdminPanel = () => {
 
   const getStatusText = (status) => {
     const texts = {
-      pending: 'Ожидает',
-      preparing: 'Готовится',
-      ready: 'Готов',
-      completed: 'Выполнен',
-      cancelled: 'Отменен'
+      pending: 'РћР¶РёРґР°РµС‚',
+      preparing: 'Р“РѕС‚РѕРІРёС‚СЃСЏ',
+      ready: 'Р“РѕС‚РѕРІ',
+      completed: 'Р’С‹РїРѕР»РЅРµРЅ',
+      cancelled: 'РћС‚РјРµРЅРµРЅ'
     };
     return texts[status] || status;
   };
@@ -89,18 +89,18 @@ const AdminPanel = () => {
     return (
       <div className="admin-login">
         <div className="login-container">
-          <h2>Админ-панель</h2>
-          <p>Введите секретный ключ для доступа</p>
+          <h2>РђРґРјРёРЅ-РїР°РЅРµР»СЊ</h2>
+          <p>Р’РІРµРґРёС‚Рµ СЃРµРєСЂРµС‚РЅС‹Р№ РєР»СЋС‡ РґР»СЏ РґРѕСЃС‚СѓРїР°</p>
           {error && <div className="error-message">{error}</div>}
           <input
             type="password"
             value={secretKey}
             onChange={(e) => setSecretKey(e.target.value)}
-            placeholder="Секретный ключ"
+            placeholder="РЎРµРєСЂРµС‚РЅС‹Р№ РєР»СЋС‡"
             className="key-input"
           />
           <button onClick={handleLogin} className="login-btn">
-            Войти
+            Р’РѕР№С‚Рё
           </button>
         </div>
       </div>
@@ -111,7 +111,7 @@ const AdminPanel = () => {
     return (
       <div className="admin-loading">
         <div className="spinner"></div>
-        <p>Загрузка заказов...</p>
+        <p>Р—Р°РіСЂСѓР·РєР° Р·Р°РєР°Р·РѕРІ...</p>
       </div>
     );
   }
@@ -119,10 +119,10 @@ const AdminPanel = () => {
   return (
     <div className="admin-container">
       <div className="admin-header">
-        <h2>Заказы ({orders.length})</h2>
+        <h2>Р—Р°РєР°Р·С‹ ({orders.length})</h2>
         <div className="header-actions">
           <button onClick={fetchOrders} className="refresh-btn">
-            Обновить
+            РћР±РЅРѕРІРёС‚СЊ
           </button>
           <button 
             onClick={() => {
@@ -131,7 +131,7 @@ const AdminPanel = () => {
             }}
             className="logout-btn"
           >
-            Выйти
+            Р’С‹Р№С‚Рё
           </button>
         </div>
       </div>
@@ -141,14 +141,14 @@ const AdminPanel = () => {
       <div className="orders-list">
         {orders.length === 0 ? (
           <div className="no-orders">
-            <p>Заказов нет</p>
+            <p>Р—Р°РєР°Р·РѕРІ РЅРµС‚</p>
           </div>
         ) : (
           orders.map(order => (
             <div key={order.id} className="order-card">
               <div className="order-header">
                 <div className="order-info">
-                  <span className="order-id">Заказ #{order.id}</span>
+                  <span className="order-id">Р—Р°РєР°Р· #{order.id}</span>
                   <span 
                     className="order-status"
                     style={{ backgroundColor: getStatusColor(order.status) }}
@@ -158,7 +158,7 @@ const AdminPanel = () => {
                 </div>
                 <div className="order-meta">
                   <span className="order-time">{formatDate(order.created_at)}</span>
-                  <span className="order-total">{order.total} ₽</span>
+                  <span className="order-total">{order.total} в‚Ѕ</span>
                 </div>
               </div>
 
@@ -168,13 +168,13 @@ const AdminPanel = () => {
               </div>
 
               <div className="order-items">
-                <strong>Состав:</strong>
+                <strong>РЎРѕСЃС‚Р°РІ:</strong>
                 {order.items.map((item, idx) => (
                   <div key={idx} className="order-item">
                     <span className="item-name">
-                      {item.name} {item.size && `(${item.size})`} × {item.quantity}
+                      {item.name} {item.size && `(${item.size})`} Г— {item.quantity}
                     </span>
-                    <span className="item-price">{item.price * item.quantity} ₽</span>
+                    <span className="item-price">{item.price * item.quantity} в‚Ѕ</span>
                   </div>
                 ))}
               </div>
@@ -185,18 +185,18 @@ const AdminPanel = () => {
                   onChange={(e) => updateOrderStatus(order.id, e.target.value)}
                   className="status-select"
                 >
-                  <option value="pending">Ожидает</option>
-                  <option value="preparing">Готовится</option>
-                  <option value="ready">Готов</option>
-                  <option value="completed">Выполнен</option>
-                  <option value="cancelled">Отменен</option>
+                  <option value="pending">РћР¶РёРґР°РµС‚</option>
+                  <option value="preparing">Р“РѕС‚РѕРІРёС‚СЃСЏ</option>
+                  <option value="ready">Р“РѕС‚РѕРІ</option>
+                  <option value="completed">Р’С‹РїРѕР»РЅРµРЅ</option>
+                  <option value="cancelled">РћС‚РјРµРЅРµРЅ</option>
                 </select>
                 
                 <button 
                   onClick={() => setSelectedOrder(order)}
                   className="details-btn"
                 >
-                  Детали
+                  Р”РµС‚Р°Р»Рё
                 </button>
               </div>
             </div>
@@ -204,52 +204,14 @@ const AdminPanel = () => {
         )}
       </div>
 
-      {/* Модальное окно с деталями заказа */}
+      {/* РњРѕРґР°Р»СЊРЅРѕРµ РѕРєРЅРѕ СЃ РґРµС‚Р°Р»СЏРјРё Р·Р°РєР°Р·Р° */}
       {selectedOrder && (
         <div className="modal-overlay" onClick={() => setSelectedOrder(null)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close" onClick={() => setSelectedOrder(null)}>×</button>
+            <button className="modal-close" onClick={() => setSelectedOrder(null)}>Г—</button>
             
-            <h3>Заказ #{selectedOrder.id}</h3>
+            <h3>Р—Р°РєР°Р· #{selectedOrder.id}</h3>
             
             <div className="modal-section">
-              <h4>Клиент</h4>
-              <p><strong>Имя:</strong> {selectedOrder.customer.name}</p>
-              <p><strong>Телефон:</strong> {selectedOrder.customer.phone}</p>
-            </div>
-
-            <div className="modal-section">
-              <h4>Детали заказа</h4>
-              <p><strong>Время:</strong> {formatDate(selectedOrder.created_at)}</p>
-              <p><strong>Статус:</strong> {getStatusText(selectedOrder.status)}</p>
-              <p><strong>Итого:</strong> {selectedOrder.total} ₽</p>
-            </div>
-
-            <div className="modal-section">
-              <h4>Товары</h4>
-              {selectedOrder.items.map((item, idx) => (
-                <div key={idx} className="modal-item">
-                  <div className="modal-item-header">
-                    <span>{item.name} {item.size && `(${item.size})`}</span>
-                    <span>{item.price * item.quantity} ₽</span>
-                  </div>
-                  <div className="modal-item-details">
-                    <span>Кол-во: {item.quantity}</span>
-                    {item.addons && Object.keys(item.addons).length > 0 && (
-                      <div className="modal-addons">
-                        <strong>Дополнения:</strong>
-                        {JSON.stringify(item.addons, null, 2)}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
-
-export default AdminPanel;
+              <h4>РљР»РёРµРЅС‚</h4>
+              <p><strong>Р

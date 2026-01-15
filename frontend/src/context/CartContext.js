@@ -1,9 +1,9 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 
-// Создаем контекст и экспортируем его
+// РЎРѕР·РґР°РµРј РєРѕРЅС‚РµРєСЃС‚ Рё СЌРєСЃРїРѕСЂС‚РёСЂСѓРµРј РµРіРѕ
 export const CartContext = createContext();
 
-// Хук для использования контекста
+// РҐСѓРє РґР»СЏ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ РєРѕРЅС‚РµРєСЃС‚Р°
 export const useCart = () => {
   const context = useContext(CartContext);
   if (!context) {
@@ -12,12 +12,12 @@ export const useCart = () => {
   return context;
 };
 
-// Провайдер контекста
+// РџСЂРѕРІР°Р№РґРµСЂ РєРѕРЅС‚РµРєСЃС‚Р°
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
-  // Загрузка корзины из localStorage при монтировании
+  // Р—Р°РіСЂСѓР·РєР° РєРѕСЂР·РёРЅС‹ РёР· localStorage РїСЂРё РјРѕРЅС‚РёСЂРѕРІР°РЅРёРё
   useEffect(() => {
     const savedCart = localStorage.getItem('metodikaCart');
     if (savedCart) {
@@ -27,12 +27,12 @@ export const CartProvider = ({ children }) => {
           setCartItems(parsedCart);
         }
       } catch (error) {
-        console.error('Ошибка загрузки корзины:', error);
+        console.error('РћС€РёР±РєР° Р·Р°РіСЂСѓР·РєРё РєРѕСЂР·РёРЅС‹:', error);
       }
     }
   }, []);
 
-  // Сохранение корзины в localStorage при изменении
+  // РЎРѕС…СЂР°РЅРµРЅРёРµ РєРѕСЂР·РёРЅС‹ РІ localStorage РїСЂРё РёР·РјРµРЅРµРЅРёРё
   useEffect(() => {
     if (cartItems.length > 0) {
       localStorage.setItem('metodikaCart', JSON.stringify(cartItems));
@@ -41,7 +41,7 @@ export const CartProvider = ({ children }) => {
     }
   }, [cartItems]);
 
-  // Добавление товара в корзину
+  // Р”РѕР±Р°РІР»РµРЅРёРµ С‚РѕРІР°СЂР° РІ РєРѕСЂР·РёРЅСѓ
   const addToCart = (product, quantity = 1) => {
     setCartItems(prevItems => {
       const existingIndex = prevItems.findIndex(item =>
@@ -60,7 +60,7 @@ export const CartProvider = ({ children }) => {
     });
   };
 
-  // Удаление товара из корзины
+  // РЈРґР°Р»РµРЅРёРµ С‚РѕРІР°СЂР° РёР· РєРѕСЂР·РёРЅС‹
   const removeFromCart = (product) => {
     setCartItems(prevItems =>
       prevItems.filter(item => !(
@@ -71,7 +71,7 @@ export const CartProvider = ({ children }) => {
     );
   };
 
-  // Обновление количества товара
+  // РћР±РЅРѕРІР»РµРЅРёРµ РєРѕР»РёС‡РµСЃС‚РІР° С‚РѕРІР°СЂР°
   const updateQuantity = (product, newQuantity) => {
     if (newQuantity < 1) {
       removeFromCart(product);
@@ -89,25 +89,25 @@ export const CartProvider = ({ children }) => {
     );
   };
 
-  // Очистка корзины
+  // РћС‡РёСЃС‚РєР° РєРѕСЂР·РёРЅС‹
   const clearCart = () => {
     setCartItems([]);
     localStorage.removeItem('metodikaCart');
   };
 
-  // Переключение видимости корзины
+  // РџРµСЂРµРєР»СЋС‡РµРЅРёРµ РІРёРґРёРјРѕСЃС‚Рё РєРѕСЂР·РёРЅС‹
   const toggleCart = () => {
     setIsCartOpen(!isCartOpen);
   };
 
-  // Расчет общей суммы
+  // Р Р°СЃС‡РµС‚ РѕР±С‰РµР№ СЃСѓРјРјС‹
   const getTotalPrice = () => {
     return cartItems.reduce((total, item) => {
       return total + (item.price || 0) * (item.quantity || 1);
     }, 0);
   };
 
-  // Расчет общего количества товаров
+  // Р Р°СЃС‡РµС‚ РѕР±С‰РµРіРѕ РєРѕР»РёС‡РµСЃС‚РІР° С‚РѕРІР°СЂРѕРІ
   const getTotalItems = () => {
     return cartItems.reduce((total, item) => total + (item.quantity || 1), 0);
   };

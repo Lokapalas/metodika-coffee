@@ -10,7 +10,7 @@ const CheckoutForm = () => {
     const [formData, setFormData] = useState({
         name: '',
         phone: '',
-        address: 'Самовывоз',
+        address: 'РЎР°РјРѕРІС‹РІРѕР·',
         paymentMethod: 'cash',
         comments: ''
     });
@@ -30,7 +30,7 @@ const CheckoutForm = () => {
             if (value.length > 1) value = '+7' + value.substring(1);
             if (value.length > 12) value = value.substring(0, 12);
             
-            // Форматирование номера
+            // Р¤РѕСЂРјР°С‚РёСЂРѕРІР°РЅРёРµ РЅРѕРјРµСЂР°
             if (value.length > 2) {
                 value = value.replace(/^(\+7)(\d{3})(\d)/, '$1 ($2) $3');
                 if (value.length > 9) {
@@ -46,11 +46,11 @@ const CheckoutForm = () => {
 
     const validateForm = () => {
         if (!formData.phone || formData.phone.replace(/\D/g, '').length < 11) {
-            alert('Пожалуйста, введите корректный номер телефона');
+            alert('РџРѕР¶Р°Р»СѓР№СЃС‚Р°, РІРІРµРґРёС‚Рµ РєРѕСЂСЂРµРєС‚РЅС‹Р№ РЅРѕРјРµСЂ С‚РµР»РµС„РѕРЅР°');
             return false;
         }
         if (cartItems.length === 0) {
-            alert('Корзина пуста');
+            alert('РљРѕСЂР·РёРЅР° РїСѓСЃС‚Р°');
             return false;
         }
         return true;
@@ -95,14 +95,14 @@ const CheckoutForm = () => {
             if (result.success) {
                 setOrderStatus({
                     type: 'success',
-                    message: `Заказ #${result.orderId} успешно оформлен!`,
+                    message: `Р—Р°РєР°Р· #${result.orderId} СѓСЃРїРµС€РЅРѕ РѕС„РѕСЂРјР»РµРЅ!`,
                     orderId: result.orderId
                 });
                 
-                // Очищаем корзину после успешного заказа
+                // РћС‡РёС‰Р°РµРј РєРѕСЂР·РёРЅСѓ РїРѕСЃР»Рµ СѓСЃРїРµС€РЅРѕРіРѕ Р·Р°РєР°Р·Р°
                 clearCart();
                 
-                // Показываем кнопку для нового заказа
+                // РџРѕРєР°Р·С‹РІР°РµРј РєРЅРѕРїРєСѓ РґР»СЏ РЅРѕРІРѕРіРѕ Р·Р°РєР°Р·Р°
                 setTimeout(() => {
                     if (window.Telegram?.WebApp) {
                         window.Telegram.WebApp.close();
@@ -111,14 +111,14 @@ const CheckoutForm = () => {
             } else {
                 setOrderStatus({
                     type: 'error',
-                    message: result.message || 'Ошибка при оформлении заказа'
+                    message: result.message || 'РћС€РёР±РєР° РїСЂРё РѕС„РѕСЂРјР»РµРЅРёРё Р·Р°РєР°Р·Р°'
                 });
             }
         } catch (error) {
-            console.error('Ошибка:', error);
+            console.error('РћС€РёР±РєР°:', error);
             setOrderStatus({
                 type: 'error',
-                message: 'Ошибка соединения с сервером'
+                message: 'РћС€РёР±РєР° СЃРѕРµРґРёРЅРµРЅРёСЏ СЃ СЃРµСЂРІРµСЂРѕРј'
             });
         } finally {
             setIsSubmitting(false);
@@ -128,136 +128,9 @@ const CheckoutForm = () => {
     if (orderStatus?.type === 'success') {
         return (
             <div className="checkout-success">
-                <div className="success-icon">✅</div>
-                <h2>Заказ оформлен успешно!</h2>
-                <p className="order-id">Номер заказа: <strong>{orderStatus.orderId}</strong></p>
-                <p>Скоро с вами свяжутся для подтверждения</p>
+                <div className="success-icon">вњ…</div>
+                <h2>Р—Р°РєР°Р· РѕС„РѕСЂРјР»РµРЅ СѓСЃРїРµС€РЅРѕ!</h2>
+                <p className="order-id">РќРѕРјРµСЂ Р·Р°РєР°Р·Р°: <strong>{orderStatus.orderId}</strong></p>
+                <p>РЎРєРѕСЂРѕ СЃ РІР°РјРё СЃРІСЏР¶СѓС‚СЃСЏ РґР»СЏ РїРѕРґС‚РІРµСЂР¶РґРµРЅРёСЏ</p>
                 <div className="success-details">
-                    <p><strong>Имя:</strong> {formData.name || 'Не указано'}</p>
-                    <p><strong>Телефон:</strong> {formData.phone}</p>
-                    <p><strong>Адрес:</strong> {formData.address}</p>
-                    <p><strong>Способ оплаты:</strong> {formData.paymentMethod === 'card' ? 'Карта' : 'Наличные'}</p>
-                </div>
-                <button 
-                    className="new-order-btn"
-                    onClick={() => window.location.href = '/'}
-                >
-                    Сделать новый заказ
-                </button>
-            </div>
-        );
-    }
-
-    return (
-        <div className="checkout-container">
-            <h2>Оформление заказа</h2>
-            
-            <div className="order-summary">
-                <h3>Ваш заказ:</h3>
-                {cartItems.map(item => (
-                    <div key={item.id} className="order-item">
-                        <span>{item.name} x{item.quantity}</span>
-                        <span>{item.price * item.quantity}₽</span>
-                    </div>
-                ))}
-                <div className="order-total">
-                    <strong>Итого:</strong>
-                    <strong>{getTotalPrice()}₽</strong>
-                </div>
-            </div>
-
-            <form onSubmit={handleSubmit} className="checkout-form">
-                <div className="form-group">
-                    <label htmlFor="name">Имя (необязательно):</label>
-                    <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        placeholder="Ваше имя"
-                    />
-                </div>
-
-                <div className="form-group required">
-                    <label htmlFor="phone">Телефон *:</label>
-                    <input
-                        type="tel"
-                        id="phone"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handlePhoneInput}
-                        placeholder="+7 (___) ___-__-__"
-                        required
-                    />
-                </div>
-
-                <div className="form-group">
-                    <label htmlFor="address">Адрес доставки:</label>
-                    <textarea
-                        id="address"
-                        name="address"
-                        value={formData.address}
-                        onChange={handleInputChange}
-                        placeholder="Укажите адрес доставки или оставьте 'Самовывоз'"
-                        rows="2"
-                    />
-                </div>
-
-                <div className="form-group">
-                    <label>Способ оплаты:</label>
-                    <div className="payment-options">
-                        <label className="payment-option">
-                            <input
-                                type="radio"
-                                name="paymentMethod"
-                                value="cash"
-                                checked={formData.paymentMethod === 'cash'}
-                                onChange={handleInputChange}
-                            />
-                            <span>💵 Наличные</span>
-                        </label>
-                        <label className="payment-option">
-                            <input
-                                type="radio"
-                                name="paymentMethod"
-                                value="card"
-                                checked={formData.paymentMethod === 'card'}
-                                onChange={handleInputChange}
-                            />
-                            <span>💳 Карта</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div className="form-group">
-                    <label htmlFor="comments">Комментарий к заказу:</label>
-                    <textarea
-                        id="comments"
-                        name="comments"
-                        value={formData.comments}
-                        onChange={handleInputChange}
-                        placeholder="Дополнительные пожелания..."
-                        rows="2"
-                    />
-                </div>
-
-                {orderStatus?.type === 'error' && (
-                    <div className="error-message">
-                        ❌ {orderStatus.message}
-                    </div>
-                )}
-
-                <button 
-                    type="submit" 
-                    className="submit-order-btn"
-                    disabled={isSubmitting || cartItems.length === 0}
-                >
-                    {isSubmitting ? 'Отправляем заказ...' : `Оформить заказ за ${getTotalPrice()}₽`}
-                </button>
-            </form>
-        </div>
-    );
-};
-
-export default CheckoutForm;
+                    <p><strong>Р
